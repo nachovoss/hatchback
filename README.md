@@ -1,45 +1,69 @@
-# Fast Boilerplate Package
+# FastAPI Alembic Boilerplate
 
-A CLI tool to generate a production-ready FastAPI project with Alembic, SQLAlchemy, and a multi-tenant architecture.
+This is a boilerplate project for FastAPI with Alembic and SQLAlchemy, featuring a multi-tenant architecture with User and Tenant models.
 
-## Installation
+## Features
 
-You can install this package locally:
+- **FastAPI**: Modern, fast (high-performance), web framework for building APIs with Python 3.6+ based on standard Python type hints.
+- **SQLAlchemy**: The Python SQL Toolkit and Object Relational Mapper.
+- **Alembic**: A lightweight database migration tool for usage with the SQLAlchemy Database Toolkit for Python.
+- **Multi-tenancy**: Built-in support for multi-tenant architecture.
+- **Authentication**: JWT-based authentication.
+- **Repository Pattern**: Clean architecture using the repository pattern.
 
-```bash
-pip install .
+## Setup
+
+1.  **Create a virtual environment**:
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
+
+2.  **Install dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+3.  **Environment Variables**:
+    Create a `.env` file in the root directory (copy from `.env.example` if available) and configure your database connection.
+    ```env
+    DATABASE_USERNAME=postgres
+    DATABASE_PASSWORD=postgres
+    DATABASE_HOSTNAME=localhost
+    DATABASE_PORT=5432
+    DATABASE_NAME=boilerplate_db
+    SECRET_KEY=your_secret_key
+    ```
+
+4.  **Database Migrations**:
+    ```bash
+    # Create a new migration
+    alembic revision --autogenerate -m "Initial migration"
+
+    # Apply migrations
+    alembic upgrade head
+    ```
+
+5.  **Run the application**:
+    ```bash
+    uvicorn app.main:app --reload
+    ```
+
+## Project Structure
+
 ```
-
-Or if you publish it to PyPI:
-
-```bash
-pip install fast-boilerplate
+fastapi-alembic-boilerplate/
+├── alembic/                # Alembic migration scripts
+├── app/
+│   ├── config/             # Configuration files
+│   ├── models/             # SQLAlchemy models
+│   ├── repositories/       # Data access layer
+│   ├── routes/             # API endpoints
+│   ├── schemas/            # Pydantic schemas
+│   ├── services/           # Business logic
+│   ├── dependencies.py     # Dependency injection
+│   └── main.py             # Application entry point
+├── alembic.ini             # Alembic configuration
+├── requirements.txt        # Project dependencies
+└── README.md               # Project documentation
 ```
-
-## Usage
-
-To create a new project, simply run:
-
-```bash
-mkdir my-new-project
-cd my-new-project
-fast-boilerplate
-```
-
-This will scaffold the following structure in your current directory:
-
-- **FastAPI** app with `app/main.py`
-- **SQLAlchemy** setup with `app/config/database.py`
-- **Alembic** migrations setup
-- **Multi-tenant** architecture (User & Tenant models)
-- **Repository Pattern** implementation
-- **JWT Authentication**
-
-## Development
-
-To develop on this package:
-
-1.  Clone the repository
-2.  Install in editable mode: `pip install -e .`
-3.  Make changes to `fast_boilerplate/template`
-4.  Test by running `fast-boilerplate` in a test directory

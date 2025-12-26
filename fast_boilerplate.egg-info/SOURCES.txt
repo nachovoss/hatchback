@@ -1,4 +1,5 @@
 MANIFEST.in
+README.md
 setup.py
 fast_boilerplate/__init__.py
 fast_boilerplate/cli.py
@@ -7,8 +8,10 @@ fast_boilerplate.egg-info/SOURCES.txt
 fast_boilerplate.egg-info/dependency_links.txt
 fast_boilerplate.egg-info/entry_points.txt
 fast_boilerplate.egg-info/top_level.txt
+fast_boilerplate/template/Dockerfile
 fast_boilerplate/template/README.md
 fast_boilerplate/template/alembic.ini
+fast_boilerplate/template/docker-compose.yml
 fast_boilerplate/template/requirements.txt
 fast_boilerplate/template/alembic/env.py
 fast_boilerplate/template/alembic/script.py.mako
