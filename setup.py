@@ -1,16 +1,16 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="fast-boilerplate",
+    name="fast-fastapi",
     version="0.1.0",
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        # No runtime dependencies for the CLI itself
+        "rich",
     ],
     entry_points={
         "console_scripts": [
-            "fast-boilerplate=fast_boilerplate.cli:init_project",
+            "fast-fastapi=fast_fastapi.cli:init_project",
         ],
     },
     author="Ignacio Bares",

@@ -1,0 +1,11 @@
+MANIFEST.in
+README.md
+setup.py
+fast_fastapi/__init__.py
+fast_fastapi/cli.py
+fast_fastapi.egg-info/PKG-INFO
+fast_fastapi.egg-info/SOURCES.txt
+fast_fastapi.egg-info/dependency_links.txt
+fast_fastapi.egg-info/entry_points.txt
+fast_fastapi.egg-info/requires.txt
+fast_fastapi.egg-info/top_level.txt

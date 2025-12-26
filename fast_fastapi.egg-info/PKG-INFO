@@ -1,5 +1,5 @@
 Metadata-Version: 2.4
-Name: fast-boilerplate
+Name: fast-fastapi
 Version: 0.1.0
 Summary: A CLI to generate a FastAPI + Alembic + SQLAlchemy boilerplate
 Author: Ignacio Bares
@@ -7,7 +7,9 @@ Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Requires-Python: >=3.8
+Requires-Dist: rich
 Dynamic: author
 Dynamic: classifier
+Dynamic: requires-dist
 Dynamic: requires-python
 Dynamic: summary

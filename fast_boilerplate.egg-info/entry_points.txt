@@ -1,2 +1,0 @@
-[console_scripts]
-fast-boilerplate = fast_boilerplate.cli:init_project
