@@ -24,6 +24,9 @@ class UserService:
     def get_user_by_email_and_tenant(self, email: str, tenant_id: UUID):
         return self.repo.get_by_email_and_tenant(email, tenant_id)
 
+    def get_users_by_tenant(self, tenant_id: UUID, skip: int = 0, limit: int = 100):
+        return self.repo.get_all_by_tenant(tenant_id, skip, limit)
+
     def create_user(
         self,
         username: str,

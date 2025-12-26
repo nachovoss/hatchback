@@ -44,3 +44,12 @@ class UserRepository(BaseRepository):
             .filter(self.model.id == user_id, self.model.tenant_id == tenant_id)
             .first()
         )
+
+    def get_all_by_tenant(self, tenant_id: UUID, skip: int = 0, limit: int = 100):
+        return (
+            self.db.query(self.model)
+            .filter(self.model.tenant_id == tenant_id)
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
