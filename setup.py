@@ -10,7 +10,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "fast-fastapi=fast_fastapi.cli:init_project",
+            "fast-fastapi=fast_fastapi.cli:main",
         ],
     },
     author="Ignacio Bares",

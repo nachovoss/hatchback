@@ -1,1 +1,2 @@
-recursive-include fast_boilerplate/template *
+recursive-include fast_fastapi/template *
+recursive-include fast_fastapi/scaffold_templates *
