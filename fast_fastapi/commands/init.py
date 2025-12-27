@@ -37,7 +37,7 @@ def handle_init(args):
         with console.status("[bold green]Copying template files...[/bold green]", spinner="dots"):
             shutil.copytree(template_dir, target_dir, dirs_exist_ok=True)
             if not should_include_docker:
-                for f in ["Dockerfile", "docker-compose.yml"]:
+                for f in ["Dockerfile", "docker-compose.yml", ".dockerignore"]:
                     f_path = os.path.join(target_dir, f)
                     if os.path.exists(f_path):
                         os.remove(f_path)

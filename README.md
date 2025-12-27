@@ -1,69 +1,89 @@
-# FastAPI Alembic Boilerplate
+# Fast-FastAPI CLI
 
-This is a boilerplate project for FastAPI with Alembic and SQLAlchemy, featuring a multi-tenant architecture with User and Tenant models.
+A powerful CLI tool to bootstrap and manage production-ready FastAPI applications with Alembic, SQLAlchemy, and Docker.
 
-## Features
+## Installation
 
-- **FastAPI**: Modern, fast (high-performance), web framework for building APIs with Python 3.6+ based on standard Python type hints.
-- **SQLAlchemy**: The Python SQL Toolkit and Object Relational Mapper.
-- **Alembic**: A lightweight database migration tool for usage with the SQLAlchemy Database Toolkit for Python.
-- **Multi-tenancy**: Built-in support for multi-tenant architecture.
-- **Authentication**: JWT-based authentication.
-- **Repository Pattern**: Clean architecture using the repository pattern.
+```bash
+pip install fast-fastapi
+```
 
-## Setup
+## Usage
 
-1.  **Create a virtual environment**:
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-    ```
+### 1. Initialize a new project
 
-2.  **Install dependencies**:
-    ```bash
-    pip install -r requirements.txt
-    ```
+Create a new FastAPI project with a robust directory structure, pre-configured database connection, and authentication.
 
-3.  **Environment Variables**:
-    Create a `.env` file in the root directory (copy from `.env.example` if available) and configure your database connection.
-    ```env
-    DATABASE_USERNAME=postgres
-    DATABASE_PASSWORD=postgres
-    DATABASE_HOSTNAME=localhost
-    DATABASE_PORT=5432
-    DATABASE_NAME=boilerplate_db
-    SECRET_KEY=your_secret_key
-    ```
+```bash
+fast-fastapi init my_project
+```
 
-4.  **Database Migrations**:
-    ```bash
-    # Create a new migration
-    alembic revision --autogenerate -m "Initial migration"
+This will:
+- Create a new directory `my_project`
+- Set up the project structure (models, schemas, repositories, services, routes)
+- Optionally create a virtual environment and install dependencies
+- Optionally include Docker and Docker Compose files
 
-    # Apply migrations
-    alembic upgrade head
-    ```
+### 2. Run the development server
 
-5.  **Run the application**:
-    ```bash
-    uvicorn app.main:app --reload
-    ```
+Start the Uvicorn server with hot-reloading enabled.
+
+```bash
+cd my_project
+fast-fastapi run
+```
+*Options:*
+- `--port`: Port to run on (default: 8000)
+- `--host`: Host to run on (default: 127.0.0.1)
+
+### 3. Manage Database Migrations
+
+Simplify Alembic migration commands.
+
+**Create a new migration:**
+Automatically generates a migration file with a sequential prefix (e.g., `1_initial.py`) to keep files ordered.
+
+```bash
+fast-fastapi migrate create -m "initial_schema"
+```
+
+**Apply migrations:**
+Upgrades the database to the latest head.
+
+```bash
+fast-fastapi migrate apply
+```
+
+### 4. Scaffold New Resources
+
+Generate all necessary files for a new resource (Model, Schema, Repository, Service, Route) in one command.
+
+```bash
+fast-fastapi make item
+```
+
+This will create:
+- `app/models/item.py`
+- `app/schemas/item.py`
+- `app/repositories/item.py`
+- `app/services/item.py`
+- `app/routes/item.py`
+- And update `app/models/__init__.py`
 
 ## Project Structure
 
+The generated project follows a clean architecture pattern:
+
 ```
-fastapi-alembic-boilerplate/
-├── alembic/                # Alembic migration scripts
-├── app/
-│   ├── config/             # Configuration files
-│   ├── models/             # SQLAlchemy models
-│   ├── repositories/       # Data access layer
-│   ├── routes/             # API endpoints
-│   ├── schemas/            # Pydantic schemas
-│   ├── services/           # Business logic
-│   ├── dependencies.py     # Dependency injection
-│   └── main.py             # Application entry point
-├── alembic.ini             # Alembic configuration
-├── requirements.txt        # Project dependencies
-└── README.md               # Project documentation
+app/
+  config/       # Database and app configuration
+  models/       # SQLAlchemy models
+  schemas/      # Pydantic schemas
+  repositories/ # Data access layer
+  services/     # Business logic
+  routes/       # API endpoints
+  dependencies.py
+  main.py
+alembic/        # Migration scripts
+tests/          # Pytest tests
 ```

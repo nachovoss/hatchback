@@ -33,7 +33,15 @@ def main():
     elif args.command == "run": handle_run(args)
     elif args.command == "migrate": handle_migrate(args)
     elif args.command == "make": handle_make(args)
-    else: parser.print_help()
+    else:
+        console.print("[bold blue]Fast-FastAPI CLI[/bold blue]")
+        console.print("Usage: fast-fastapi [command] [options]")
+        console.print("\nAvailable commands:")
+        console.print("  [green]init[/green]      Initialize a new project")
+        console.print("  [green]run[/green]       Run the development server")
+        console.print("  [green]migrate[/green]   Manage database migrations")
+        console.print("  [green]make[/green]      Scaffold a new resource")
+        console.print("\nRun 'fast-fastapi [command] --help' for more information.")
 
 if __name__ == "__main__":
     main()
