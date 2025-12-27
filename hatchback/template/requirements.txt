@@ -10,3 +10,4 @@ passlib[bcrypt]
 sqlalchemy-utils
 pytest
 httpx
+slowapi

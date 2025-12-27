@@ -1,11 +1,11 @@
-# Fast-FastAPI CLI
+# Hatchback CLI
 
 A powerful CLI tool to bootstrap and manage production-ready FastAPI applications with Alembic, SQLAlchemy, and Docker.
 
 ## Installation
 
 ```bash
-pip install fast-fastapi
+pip install hatchback
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ pip install fast-fastapi
 Create a new FastAPI project with a robust directory structure, pre-configured database connection, and authentication.
 
 ```bash
-fast-fastapi init my_project
+hatchback init my_project
 ```
 
 This will:
@@ -30,7 +30,7 @@ Start the Uvicorn server with hot-reloading enabled.
 
 ```bash
 cd my_project
-fast-fastapi run
+hatchback run
 ```
 *Options:*
 - `--port`: Port to run on (default: 8000)
@@ -44,14 +44,14 @@ Simplify Alembic migration commands.
 Automatically generates a migration file with a sequential prefix (e.g., `1_initial.py`) to keep files ordered.
 
 ```bash
-fast-fastapi migrate create -m "initial_schema"
+hatchback migrate create -m "initial_schema"
 ```
 
 **Apply migrations:**
 Upgrades the database to the latest head.
 
 ```bash
-fast-fastapi migrate apply
+hatchback migrate apply
 ```
 
 ### 4. Scaffold New Resources
@@ -59,7 +59,7 @@ fast-fastapi migrate apply
 Generate all necessary files for a new resource (Model, Schema, Repository, Service, Route) in one command.
 
 ```bash
-fast-fastapi make item
+hatchback make item
 ```
 
 This will create:

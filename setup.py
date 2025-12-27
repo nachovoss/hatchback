@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="fast-fastapi",
+    name="hatchback",
     version="0.1.0",
     packages=find_packages(),
     include_package_data=True,
@@ -10,7 +10,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "fast-fastapi=fast_fastapi.cli:main",
+            "hatchback=hatchback.cli:main",
         ],
     },
     author="Ignacio Bares",

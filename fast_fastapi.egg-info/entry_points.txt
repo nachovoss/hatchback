@@ -1,2 +1,0 @@
-[console_scripts]
-fast-fastapi = fast_fastapi.cli:main

@@ -16,9 +16,9 @@ def handle_make(args):
         return
 
     # Locate templates directory
-    # __file__ is .../fast_fastapi/commands/make.py
-    # os.path.dirname(__file__) is .../fast_fastapi/commands
-    # os.path.dirname(...) is .../fast_fastapi
+    # __file__ is .../hatchback/commands/make.py
+    # os.path.dirname(__file__) is .../hatchback/commands
+    # os.path.dirname(...) is .../hatchback
     package_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     templates_dir = os.path.join(package_dir, "scaffold_templates")
 

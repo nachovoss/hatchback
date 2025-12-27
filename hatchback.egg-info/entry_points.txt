@@ -1,0 +1,2 @@
+[console_scripts]
+hatchback = hatchback.cli:main

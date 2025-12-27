@@ -1,2 +1,2 @@
-recursive-include fast_fastapi/template *
-recursive-include fast_fastapi/scaffold_templates *
+recursive-include hatchback/template *
+recursive-include hatchback/scaffold_templates *

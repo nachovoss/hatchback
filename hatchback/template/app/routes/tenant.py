@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.config.database import get_db
 from app.schemas.tenant import TenantCreate, TenantResponse
 from app.services.tenant import TenantService
+from app.dependencies import get_current_user
 
 router = APIRouter(prefix="/tenants", tags=["Tenants"])
 
@@ -13,6 +14,7 @@ async def get_all_tenants(
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
 ):
     service = TenantService(db)
     tenants = service.get_all_tenants(skip, limit)
@@ -22,6 +24,7 @@ async def get_all_tenants(
 async def create_tenant(
     tenant_data: TenantCreate,
     db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
 ):
     service = TenantService(db)
     tenant = service.create_tenant(tenant_data)

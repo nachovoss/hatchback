@@ -1,5 +1,5 @@
 from datetime import timedelta
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 
 from app.dependencies import (
     get_auth_service,
@@ -15,11 +15,14 @@ from app.schemas.user import UserCreate
 from app.services.auth import AuthService
 from app.services.tenant import TenantService
 from app.services.user import UserService
+from app.config.limiter import limiter
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
 @router.post("/register", response_model=RegisterResponse)
+@limiter.limit("5/minute")
 def register_user(
+    request: Request,
     user: UserCreate,
     user_service: UserService = Depends(get_user_service),
     auth_service: AuthService = Depends(get_auth_service),
@@ -53,7 +56,7 @@ def register_user(
         "role": new_user.role,
     }
     access_token = auth_service.create_access_token(
-        data=token_data, expires_delta=timedelta(days=1)
+        data=token_data
     )
     return {
         "user": new_user,
@@ -61,20 +64,22 @@ def register_user(
     }
 
 @router.post("/login", response_model=LoginResponse)
+@limiter.limit("5/minute")
 async def login(
-    request: LoginRequest,
+    request: Request,
+    login_request: LoginRequest,
     auth_service: AuthService = Depends(get_auth_service),
     tenant_service: TenantService = Depends(get_tenant_service),
 ):
-    tenant = tenant_service.get_tenant_by_subdomain(request.subdomain)
+    tenant = tenant_service.get_tenant_by_subdomain(login_request.subdomain)
     if not tenant or not tenant.is_active:
         raise HTTPException(
             status_code=400,
-            detail=f"error.invalid_tenant_name '{request.subdomain}' or tenant is not active",
+            detail=f"error.invalid_tenant_name '{login_request.subdomain}' or tenant is not active",
         )
 
     user_data = auth_service.authenticate_user(
-        request.username, request.password, tenant.id
+        login_request.username, login_request.password, tenant.id
     )
     if not user_data:
         raise HTTPException(
@@ -84,7 +89,7 @@ async def login(
         )
 
     access_token = auth_service.create_access_token(
-        data=user_data, expires_delta=timedelta(days=1)
+        data=user_data
     )
     return {
         "user": user_data,

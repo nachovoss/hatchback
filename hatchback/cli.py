@@ -8,24 +8,24 @@ from .utils import console, play_intro
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Fast-FastAPI CLI - A production-ready FastAPI boilerplate generator and manager.",
+        description="Hatchback CLI - A production-ready FastAPI boilerplate generator and manager.",
         formatter_class=argparse.RawTextHelpFormatter,
         epilog="""
 Examples:
   # Initialize a new project
-  fast-fastapi init my_awesome_project
+  hatchback init my_awesome_project
 
   # Run the development server
-  fast-fastapi run --host 0.0.0.0 --port 8000
+  hatchback run --host 0.0.0.0 --port 8000
 
   # Create a new migration
-  fast-fastapi migrate create -m "create users table"
+  hatchback migrate create -m "create users table"
 
   # Apply migrations
-  fast-fastapi migrate apply
+  hatchback migrate apply
 
   # Scaffold a new resource (Model, Service, Repository, etc.)
-  fast-fastapi make product
+  hatchback make product
 """
     )
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
@@ -72,14 +72,14 @@ Examples:
     elif args.command == "make": handle_make(args)
     else:
         play_intro()
-        console.print("[bold blue]Fast-FastAPI CLI[/bold blue]")
-        console.print("Usage: fast-fastapi [command] [options]")
+        console.print("[bold blue]Hatchback CLI[/bold blue]")
+        console.print("Usage: hatchback [command] [options]")
         console.print("\nAvailable commands:")
         console.print("  [green]init[/green]      Initialize a new project")
         console.print("  [green]run[/green]       Run the development server")
         console.print("  [green]migrate[/green]   Manage database migrations")
         console.print("  [green]make[/green]      Scaffold a new resource")
-        console.print("\nRun 'fast-fastapi [command] --help' for more information.")
+        console.print("\nRun 'hatchback [command] --help' for more information.")
 
 if __name__ == "__main__":
     main()
