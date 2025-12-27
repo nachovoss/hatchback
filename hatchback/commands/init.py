@@ -98,6 +98,15 @@ def handle_init(args):
         
         console.print(Panel("[bold green]✨ HATCHBACK COMPLETE! Your backend is ready to drive. ✨[/bold green]", expand=False))
         
+        console.print("\n[bold blue]Hatchback CLI[/bold blue]")
+        console.print("Usage: hatchback")
+        console.print("\nAvailable commands:")
+        console.print("  [green]init[/green]      Initialize a new project")
+        console.print("  [green]run[/green]       Run the development server")
+        console.print("  [green]migrate[/green]   Manage database migrations")
+        console.print("  [green]make[/green]      Scaffold a new resource")
+        console.print("\nRun 'hatchback --help' for more information.")
+        
         next_steps = Text()
         next_steps.append("\n🚗 --- Next Steps --- 🚗\n", style="bold underline")
         if project_name: next_steps.append(f"- cd {project_name}\n")
