@@ -21,6 +21,18 @@ def handle_init(args):
         project_name = Prompt.ask("[bold green]Enter project name[/bold green] (leave empty to use current directory)")
 
     should_install = args.install if args.install or args.no_install else Confirm.ask("[bold green]Create virtual environment and install requirements?[/bold green]", default=True)
+    
+    use_uv = False
+    if should_install:
+        uv_path = shutil.which("uv")
+        if args.use_uv:
+            if not uv_path:
+                console.print("[yellow]Warning: --use-uv specified but 'uv' not found. Falling back to pip.[/yellow]")
+            else:
+                use_uv = True
+        elif uv_path:
+             use_uv = Confirm.ask("[bold green]uv found! Use uv for faster installation?[/bold green]", default=True)
+
     should_include_docker = args.docker if args.docker or args.no_docker else Confirm.ask("[bold green]Include Docker files?[/bold green]", default=True)
 
     # Adjust package_dir to point to the parent of 'commands' (i.e., fast_fastapi)
@@ -45,13 +57,22 @@ def handle_init(args):
 
         if should_install:
             venv_dir = os.path.join(target_dir, "venv")
-            with console.status("[bold green]Creating virtual environment...[/bold green]", spinner="dots"):
-                subprocess.run([sys.executable, "-m", "venv", venv_dir], check=True)
+            
+            if use_uv:
+                with console.status("[bold green]Creating virtual environment with uv...[/bold green]", spinner="dots"):
+                    subprocess.run(["uv", "venv", venv_dir], check=True, capture_output=True)
+            else:
+                with console.status("[bold green]Creating virtual environment...[/bold green]", spinner="dots"):
+                    subprocess.run([sys.executable, "-m", "venv", venv_dir], check=True)
             console.print("[bold green]✓ Virtual environment created.[/bold green]")
             
             with console.status("[bold green]Installing requirements...[/bold green]", spinner="dots"):
-                pip_exe = os.path.join(venv_dir, "Scripts", "pip") if os.name == 'nt' else os.path.join(venv_dir, "bin", "pip")
-                subprocess.run([pip_exe, "install", "-r", os.path.join(target_dir, "requirements.txt")], check=True, capture_output=True)
+                if use_uv:
+                    venv_python = os.path.join(venv_dir, "Scripts", "python.exe") if os.name == 'nt' else os.path.join(venv_dir, "bin", "python")
+                    subprocess.run(["uv", "pip", "install", "-p", venv_python, "-r", os.path.join(target_dir, "requirements.txt")], check=True, capture_output=True)
+                else:
+                    pip_exe = os.path.join(venv_dir, "Scripts", "pip") if os.name == 'nt' else os.path.join(venv_dir, "bin", "pip")
+                    subprocess.run([pip_exe, "install", "-r", os.path.join(target_dir, "requirements.txt")], check=True, capture_output=True)
             console.print("[bold green]✓ Dependencies installed.[/bold green]")
         
         console.print(Panel("[bold green]Project initialized successfully![/bold green]", expand=False))
@@ -64,6 +85,13 @@ def handle_init(args):
         next_steps.append("- fast-fastapi run\n")
         console.print(next_steps)
         
+    except subprocess.CalledProcessError as e:
+        console.print(f"[bold red]Error running command:[/bold red] {e.cmd}")
+        if e.stderr:
+            console.print(f"[red]{e.stderr.decode()}[/red]")
+        if e.stdout:
+            console.print(f"[dim]{e.stdout.decode()}[/dim]")
+        sys.exit(1)
     except Exception as e:
         console.print(f"[bold red]Error initializing project:[/bold red] {e}")
         sys.exit(1)

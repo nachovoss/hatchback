@@ -28,6 +28,7 @@ def handle_make(args):
         "repository.tpl": f"app/repositories/{resource}.py",
         "service.tpl": f"app/services/{resource}.py",
         "route.tpl": f"app/routes/{resource}.py",
+        "test.tpl": f"tests/test_{resource}s.py",
     }
 
     for tpl_file, target_path in files_map.items():
