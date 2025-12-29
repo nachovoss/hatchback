@@ -28,11 +28,11 @@ def register_user(
     auth_service: AuthService = Depends(get_auth_service),
     tenant_service: TenantService = Depends(get_tenant_service),
 ):
-    tenant = tenant_service.get_tenant_by_subdomain(user.subdomain)
+    tenant = tenant_service.get_tenant(user.tenant_id)
     if not tenant or not tenant.is_active:
         raise HTTPException(
             status_code=400,
-            detail=f"error.invalid_tenant_name '{user.subdomain}' or tenant is not active",
+            detail=f"error.invalid_tenant_id '{user.tenant_id}' or tenant is not active",
         )
 
     if user.password != user.password_confirmation:

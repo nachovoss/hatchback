@@ -15,7 +15,7 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     password: str = Field(..., min_length=8, max_length=100)
     password_confirmation: str = Field(..., min_length=8, max_length=100)
-    subdomain: str = Field(..., min_length=3, max_length=63, pattern="^[a-z0-9-]+$") # tenant_subdomain of client
+    tenant_id: UUID # tenant_id of client
 
 class UserUpdate(BaseModel):
     username: Optional[str] = Field(None, min_length=3, max_length=50, pattern="^[a-zA-Z0-9_-]+$")
