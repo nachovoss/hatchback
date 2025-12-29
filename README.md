@@ -8,9 +8,10 @@ Hatchback is a powerful CLI tool designed to bootstrap and manage production-rea
 ## ✨ Features
 
 - **🚀 Production Ready**: SQLAlchemy 2.0, Pydantic v2, and Alembic pre-configured.
-- **🛡️ Secure by Default**: Rate limiting (SlowAPI), hardened Auth (JWT), and non-root Docker containers.
+- **🛡️ Secure by Default**: Rate limiting (SlowAPI), hardened Auth (JWT), secure secret generation, and non-root Docker containers.
 - **⚡ Blazing Fast**: Optional `uv` support for lightning-fast dependency management.
 - **🏗️ Clean Architecture**: Service-Repository pattern for maintainable code.
+- **✅ Testing Ready**: Integrated `pytest` setup with `hatchback test`.
 - **🐳 Dockerized**: Ready-to-deploy `docker-compose` setup with healthchecks.
 - **🏎️ Drift Mode**: A CLI that drives as good as it looks.
 
@@ -75,6 +76,7 @@ hatchback run
 ### 3. Scaffold Resources
 
 Don't write boilerplate. Generate Models, Schemas, Repositories, Services, and Routes in one go.
+Hatchback automatically registers your new routes and services, so they are ready to use immediately.
 
 ```bash
 hatchback make Product
@@ -91,7 +93,15 @@ hatchback migrate create -m "add products table"
 # Apply migrations
 hatchback migrate apply
 ```
+# 5. Seed Data
 
+Populate your database with initial data (default tenant and admin user).
+
+```bash
+hatchback seed
+```
+
+##
 ## 🏗️ Architecture Explained
 
 Hatchback follows a **Service-Repository** pattern to keep your code modular and testable.
@@ -100,10 +110,10 @@ Hatchback follows a **Service-Repository** pattern to keep your code modular and
 2. **Services (`app/services/`)**: Contain the business logic. They orchestrate data operations using Repositories.
 3. **Repositories (`app/repositories/`)**: Handle direct database interactions (CRUD). They abstract the SQL/ORM details from the rest of the app.
 4. **Models (`app/models/`)**: SQLAlchemy database definitions.
-5. **Schemas (`app/schemas/`)**: Pydantic models for request validation and response serialization.
+hatchback test
 
-## 🧪 Running Tests
-
+# Run with coverage (pass arguments to pytest)
+hatchback test --
 Hatchback projects come with `pytest` configured.
 
 ```bash

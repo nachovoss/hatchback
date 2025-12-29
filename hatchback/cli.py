@@ -4,6 +4,8 @@ from .commands.init import handle_init
 from .commands.run import handle_run
 from .commands.migrate import handle_migrate
 from .commands.make import handle_make
+from .commands.seed import handle_seed
+from .commands.test import handle_test
 from .utils import console, play_intro
 
 def main():
@@ -26,6 +28,12 @@ Examples:
 
   # Scaffold a new resource (Model, Service, Repository, etc.)
   hatchback make product
+
+  # Seed the database with default tenant and admin user
+  hatchback seed
+
+  # Run tests
+  hatchback test
 """
     )
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
@@ -65,11 +73,26 @@ Examples:
     )
     make_parser.add_argument("resource", help="Name of the resource (snake_case)")
 
+    seed_parser = subparsers.add_parser(
+        "seed", 
+        help="Seed the database with default tenant and admin user",
+        description="Run the seed.py script to populate the database with initial data."
+    )
+    seed_parser.add_argument("--password", help="Admin password (optional, will prompt if not provided)")
+
+    test_parser = subparsers.add_parser(
+        "test", 
+        help="Run tests using pytest",
+        description="Run the test suite."
+    )
+
     args = parser.parse_args()
     if args.command == "init": handle_init(args)
     elif args.command == "run": handle_run(args)
     elif args.command == "migrate": handle_migrate(args)
     elif args.command == "make": handle_make(args)
+    elif args.command == "seed": handle_seed(args)
+    elif args.command == "test": handle_test(args)
     else:
         play_intro()
         console.print("[bold blue]Hatchback CLI[/bold blue]")

@@ -60,3 +60,56 @@ def handle_make(args):
         with open(init_path, "a") as f:
             f.write(f"\nfrom app.models.{resource} import {Resource}")
         console.print(f"[green]Updated app/models/__init__.py[/green]")
+
+    # Update routes/__init__.py
+    routes_init_path = os.path.join(app_dir, "routes", "__init__.py")
+    if os.path.exists(routes_init_path):
+        with open(routes_init_path, "r") as f:
+            content = f.read()
+        
+        if f"from .{resource} import router" not in content:
+            # Add import
+            import_stmt = f"from .{resource} import router as {resource}_router\n"
+            content = import_stmt + content
+            
+            # Add to routers list
+            if "routers = [" in content:
+                content = content.replace("routers = [", f"routers = [{resource}_router, ")
+            
+            with open(routes_init_path, "w") as f:
+                f.write(content)
+            console.print(f"[green]Updated app/routes/__init__.py[/green]")
+
+    # Update services/__init__.py
+    services_init_path = os.path.join(app_dir, "services", "__init__.py")
+    if os.path.exists(services_init_path):
+        with open(services_init_path, "r") as f:
+            content = f.read()
+            
+        if f"from .{resource} import {Resource}Service" not in content:
+            import_stmt = f"from .{resource} import {Resource}Service\n"
+            content = import_stmt + content
+            
+            if "__all__ = [" in content:
+                content = content.replace("__all__ = [", f"__all__ = [\"{Resource}Service\", ")
+                
+            with open(services_init_path, "w") as f:
+                f.write(content)
+            console.print(f"[green]Updated app/services/__init__.py[/green]")
+
+    # Update repositories/__init__.py
+    repos_init_path = os.path.join(app_dir, "repositories", "__init__.py")
+    if os.path.exists(repos_init_path):
+        with open(repos_init_path, "r") as f:
+            content = f.read()
+            
+        if f"from .{resource} import {Resource}Repository" not in content:
+            import_stmt = f"from .{resource} import {Resource}Repository\n"
+            content = import_stmt + content
+            
+            if "__all__ = [" in content:
+                content = content.replace("__all__ = [", f"__all__ = [\"{Resource}Repository\", ")
+                
+            with open(repos_init_path, "w") as f:
+                f.write(content)
+            console.print(f"[green]Updated app/repositories/__init__.py[/green]")

@@ -5,14 +5,17 @@ import subprocess
 from ..utils import console, get_venv_executable
 
 def handle_migrate(args):
-    alembic_cmd = get_venv_executable("alembic")
+    # Use python -m alembic instead of calling alembic executable directly
+    # This is more robust across different venv setups
+    python_cmd = get_venv_executable("python")
+    
     if args.action == "create":
         if not args.message:
             console.print("[bold red]Error: Migration message is required for 'create'. Use -m 'message'[/bold red]")
             return
         console.print(f"[bold green]Creating migration: {args.message}[/bold green]")
         try:
-            subprocess.run([alembic_cmd, "revision", "--autogenerate", "-m", args.message], check=True)
+            subprocess.run([python_cmd, "-m", "alembic", "revision", "--autogenerate", "-m", args.message], check=True)
             
             versions_dir = "alembic/versions"
             if os.path.exists(versions_dir):
@@ -38,6 +41,6 @@ def handle_migrate(args):
     elif args.action == "apply":
         console.print("[bold green]Applying migrations...[/bold green]")
         try:
-            subprocess.run([alembic_cmd, "upgrade", "head"], check=True)
+            subprocess.run([python_cmd, "-m", "alembic", "upgrade", "head"], check=True)
         except Exception as e:
             console.print(f"[bold red]Error applying migrations:[/bold red] {e}")

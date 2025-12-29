@@ -38,15 +38,29 @@ This is a boilerplate project for FastAPI with Alembic and SQLAlchemy, featuring
 4.  **Database Migrations**:
     ```bash
     # Create a new migration
-    alembic revision --autogenerate -m "Initial migration"
+    hatchback migrate create -m "Initial migration"
+    # Or manually: alembic revision --autogenerate -m "Initial migration"
 
     # Apply migrations
-    alembic upgrade head
+    hatchback migrate apply
+    # Or manually: alembic upgrade head
     ```
 
 5.  **Run the application**:
     ```bash
-    uvicorn app.main:app --reload
+    hatchback run
+    # Or manually: uvicorn app.main:app --reload
+    ```
+
+6.  **Seed Data**:
+    ```bash
+    hatchback seed
+    ```
+
+7.  **Run Tests**:
+    ```bash
+    hatchback test
+    # Or manually: pytest
     ```
 
 ## Project Structure

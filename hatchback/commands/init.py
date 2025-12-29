@@ -2,6 +2,7 @@ import os
 import shutil
 import sys
 import subprocess
+import secrets
 from rich.prompt import Prompt, Confirm
 from rich.panel import Panel
 from rich.text import Text
@@ -55,7 +56,7 @@ def handle_init(args):
                     if os.path.exists(f_path):
                         os.remove(f_path)
             
-            # Create .env file with chosen DB name
+            # Create .env file with chosen DB name and generated secret key
             env_example_path = os.path.join(target_dir, ".env.example")
             env_path = os.path.join(target_dir, ".env")
             if os.path.exists(env_example_path):
@@ -68,6 +69,18 @@ def handle_init(args):
                 else:
                     env_content += f"\nDATABASE_NAME={db_name}\n"
                 
+                # Generate and set SECRET_KEY
+                secret_key = secrets.token_urlsafe(32)
+                if "SECRET_KEY=" in env_content:
+                    # Replace existing placeholder if any, though .env.example usually has it empty or default
+                    # We'll just append if it's not clearly replaceable, but let's assume we append or replace
+                    # For now, let's just append it if it's not there, or replace the line if we can find a pattern
+                    # But simpler: just append it if not present, or replace the specific default line
+                    pass 
+                
+                # Actually, let's just append it to ensure it's set
+                env_content += f"\nSECRET_KEY={secret_key}\n"
+
                 with open(env_path, "w") as f:
                     f.write(env_content)
         
