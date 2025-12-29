@@ -1,0 +1,12 @@
+# This file defines who owns which files in the repository.
+# Code owners are automatically requested for review when someone opens a pull request.
+
+# Match all files to the project owner (you)
+* @nachovoss
+
+# You can add more specific rules later, for example:
+# Match all files in the .github/ directory
+# .github/ @nachovoss @another-maintainer
+
+# Match all python files
+# *.py @nachovoss
