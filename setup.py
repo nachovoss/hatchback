@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="hatchback",
-    version="0.1.0",
+    version="0.1.5",
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
