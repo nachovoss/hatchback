@@ -1,4 +1,5 @@
-# 🚗 Hatchback CLI
+<img width="715" height="116" alt="image" src="https://github.com/user-attachments/assets/fc0f049c-02de-4633-89b2-5a632fd4ff27" />
+
 
 **The high-performance, drift-ready boilerplate for FastAPI.**
 
