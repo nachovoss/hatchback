@@ -1,2 +1,4 @@
 recursive-include hatchback/template *
 recursive-include hatchback/scaffold_templates *
+global-exclude __pycache__
+global-exclude *.pyc
