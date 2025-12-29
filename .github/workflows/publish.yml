@@ -6,7 +6,6 @@ on:
 
 jobs:
   deploy:
-    environment: pypi
     runs-on: ubuntu-latest
     permissions:
       id-token: write
