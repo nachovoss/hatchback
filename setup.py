@@ -33,4 +33,9 @@ setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.8',
+    project_urls={
+        "Homepage": "https://github.com/nachovoss/hatchback",
+        "Source": "https://github.com/nachovoss/hatchback",
+        "Tracker": "https://github.com/nachovoss/hatchback/issues",
+    },
 )
