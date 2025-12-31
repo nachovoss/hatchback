@@ -1,4 +1,5 @@
-<img width="715" height="116" alt="image" src="https://github.com/user-attachments/assets/fc0f049c-02de-4633-89b2-5a632fd4ff27" />
+
+![Animated_Logo_GIF_Creation-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/2a0bb698-bec4-4501-899e-fd4ab842d132)
 
 **The high-performance, drift-ready boilerplate for FastAPI.**
 
