@@ -1,5 +1,5 @@
 from uuid import UUID
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, EmailStr, Field
 from .user import UserResponse
 
 class LoginRequest(BaseModel):
@@ -18,3 +18,12 @@ class RegisterResponse(BaseModel):
 class LoginResponse(BaseModel):
     user: UserResponse
     token: Token
+
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+    tenant_id: UUID
+
+class ResetPasswordRequest(BaseModel):
+    token: str
+    new_password: str
+    confirm_password: str

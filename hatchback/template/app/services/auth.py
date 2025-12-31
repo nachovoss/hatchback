@@ -7,6 +7,8 @@ import bcrypt
 from jose import JWTError, jwt
 
 from app.services.user import UserService
+from app.services.notification import NotificationService
+from fastapi import HTTPException
 
 SECRET_KEY = env.get("SECRET_KEY")
 if not SECRET_KEY:
@@ -26,6 +28,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = int(env.get("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 class AuthService:
     def __init__(self, db):
         self.user_service = UserService(db)
+        self.notification_service = NotificationService()
 
     def verify_password(self, plain_password: str, hashed_password: str) -> bool:
         return bcrypt.checkpw(
@@ -81,3 +84,40 @@ class AuthService:
             return payload
         except JWTError:
             return None
+
+    def forgot_password(self, email: str, tenant_id: UUID):
+        user = self.user_service.get_user_by_email_and_tenant(email, tenant_id)
+        if not user:
+            # Return silently to avoid email enumeration
+            return
+
+        # Create reset token
+        reset_token = self.create_access_token(
+            data={"sub": str(user.id), "type": "reset_password"},
+            expires_delta=timedelta(minutes=15)
+        )
+        
+        # Send email
+        self.notification_service.send_password_recovery_email(user.email, reset_token)
+
+    def reset_password(self, token: str, new_password: str):
+        payload = self.decode_access_token(token)
+        if not payload or payload.get("type") != "reset_password":
+             raise HTTPException(status_code=400, detail="error.invalid_or_expired_token")
+        
+        user_id = payload.get("sub")
+        user = self.user_service.get_user_by_id(UUID(user_id))
+        if not user:
+             raise HTTPException(status_code=400, detail="error.user_not_found")
+             
+        self.user_service.update_user(user, {"password": new_password})
+
+    def change_password(self, user_id: UUID, current_password: str, new_password: str):
+        user = self.user_service.get_user_by_id(user_id)
+        if not user:
+            raise HTTPException(status_code=404, detail="error.user_not_found")
+            
+        if not self.verify_password(current_password, user.hashed_password):
+            raise HTTPException(status_code=400, detail="error.invalid_current_password")
+            
+        self.user_service.update_user(user, {"password": new_password})

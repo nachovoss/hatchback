@@ -11,3 +11,4 @@ sqlalchemy-utils
 pytest
 httpx
 slowapi
+mailersend

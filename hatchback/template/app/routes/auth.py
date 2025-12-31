@@ -10,6 +10,8 @@ from app.schemas.auth import (
     LoginRequest,
     LoginResponse,
     RegisterResponse,
+    ForgotPasswordRequest,
+    ResetPasswordRequest,
 )
 from app.schemas.user import UserCreate
 from app.services.auth import AuthService
@@ -95,3 +97,38 @@ async def login(
         "user": user_data,
         "token": {"access_token": access_token, "token_type": "bearer"},
     }
+
+
+@router.post("/forgot-password")
+@limiter.limit("3/minute")
+async def forgot_password(
+    request: Request,
+    forgot_request: ForgotPasswordRequest,
+    auth_service: AuthService = Depends(get_auth_service),
+    tenant_service: TenantService = Depends(get_tenant_service),
+):
+    tenant = tenant_service.get_tenant(forgot_request.tenant_id)
+    if not tenant or not tenant.is_active:
+        raise HTTPException(
+            status_code=400,
+            detail=f"error.invalid_tenant_id '{forgot_request.tenant_id}' or tenant is not active",
+        )
+
+    auth_service.forgot_password(forgot_request.email, tenant.id)
+    return {"message": "If the email exists, a password recovery email has been sent."}
+
+
+@router.post("/reset-password")
+@limiter.limit("3/minute")
+async def reset_password(
+    request: Request,
+    reset_request: ResetPasswordRequest,
+    auth_service: AuthService = Depends(get_auth_service),
+):
+    if reset_request.new_password != reset_request.confirm_password:
+        raise HTTPException(
+            status_code=400, detail="error.passwords_do_not_match"
+        )
+
+    auth_service.reset_password(reset_request.token, reset_request.new_password)
+    return {"message": "Password has been reset successfully."}
