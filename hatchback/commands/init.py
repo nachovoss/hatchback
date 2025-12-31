@@ -109,6 +109,19 @@ def handle_init(args):
                     subprocess.run([pip_exe, "install", "-r", os.path.join(target_dir, "requirements.txt")], check=True, capture_output=True)
             console.print("[bold green]✓ Dependencies installed.[/bold green]")
         
+        db_started = False
+        if should_include_docker:
+            if Confirm.ask("[bold green]Start database container now?[/bold green]", default=True):
+                try:
+                    with console.status("[bold green]Starting database container...[/bold green]", spinner="dots"):
+                        subprocess.run(["docker-compose", "up", "-d", "db"], cwd=target_dir, check=True, capture_output=True)
+                    console.print("[bold green]✓ Database container started.[/bold green]")
+                    db_started = True
+                except subprocess.CalledProcessError:
+                    console.print("[yellow]Warning: Failed to start Docker container. Make sure Docker is running.[/yellow]")
+                except FileNotFoundError:
+                    console.print("[yellow]Warning: docker-compose not found.[/yellow]")
+
         console.print(Panel("[bold green]✨ HATCHBACK COMPLETE! Your backend is ready to drive. ✨[/bold green]", expand=False))
         
         console.print("\n[bold blue]Hatchback CLI[/bold blue]")
@@ -118,13 +131,22 @@ def handle_init(args):
         console.print("  [green]run[/green]       Run the development server")
         console.print("  [green]migrate[/green]   Manage database migrations")
         console.print("  [green]make[/green]      Scaffold a new resource")
+        console.print("  [green]seed[/green]      Seed the database with initial data")
+        console.print("  [green]test[/green]      Run the test suite")
         console.print("\nRun 'hatchback --help' for more information.")
         
         next_steps = Text()
         next_steps.append("\n🚗 --- Next Steps --- 🚗\n", style="bold underline")
         if project_name: next_steps.append(f"- cd {project_name}\n")
+        
+        if should_include_docker and not db_started:
+            next_steps.append("- docker-compose up -d db\n")
+        elif not should_include_docker:
+            next_steps.append("- (Ensure your Postgres database is running)\n")
+            
         next_steps.append("- hatchback migrate create -m 'init'\n")
         next_steps.append("- hatchback migrate apply\n")
+        next_steps.append("- hatchback seed\n")
         next_steps.append("- hatchback run\n")
         console.print(next_steps)
         

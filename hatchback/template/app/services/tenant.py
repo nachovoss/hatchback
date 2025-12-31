@@ -14,6 +14,9 @@ class TenantService:
     def get_tenant_by_id(self, tenant_id: uuid.UUID) -> Optional[Tenant]:
         return self.repository.get_by_id(tenant_id)
 
+    def get_tenant(self, tenant_id: uuid.UUID) -> Optional[Tenant]:
+        return self.get_tenant_by_id(tenant_id)
+
     def get_tenant_by_subdomain(self, subdomain: str) -> Optional[Tenant]:
         return self.repository.get_by_subdomain(subdomain)
 

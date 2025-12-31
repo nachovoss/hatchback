@@ -59,3 +59,17 @@ class UserService:
             role=role,
         )
         return self.repo.create(new_user)
+
+    def update_user(self, user: User, update_data: dict):
+        if "password" in update_data and update_data["password"]:
+            hashed = bcrypt.hashpw(
+                update_data["password"].encode("utf-8"), bcrypt.gensalt()
+            ).decode("utf-8")
+            update_data["hashed_password"] = hashed
+            del update_data["password"]
+        
+        # Prevent changing critical fields if passed by accident, though schema should handle it
+        if "tenant_id" in update_data:
+            del update_data["tenant_id"]
+            
+        return self.repo.update(user.id, update_data)

@@ -71,11 +71,11 @@ async def login(
     auth_service: AuthService = Depends(get_auth_service),
     tenant_service: TenantService = Depends(get_tenant_service),
 ):
-    tenant = tenant_service.get_tenant_by_subdomain(login_request.subdomain)
+    tenant = tenant_service.get_tenant(login_request.tenant_id)
     if not tenant or not tenant.is_active:
         raise HTTPException(
             status_code=400,
-            detail=f"error.invalid_tenant_name '{login_request.subdomain}' or tenant is not active",
+            detail=f"error.invalid_tenant_id '{login_request.tenant_id}' or tenant is not active",
         )
 
     user_data = auth_service.authenticate_user(

@@ -1,7 +1,7 @@
 from typing import List
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from app.dependencies import get_current_active_user, RoleChecker, get_user_service
-from app.schemas.user import UserResponse
+from app.schemas.user import UserResponse, UserUpdate
 from app.services.user import UserService
 
 router = APIRouter(prefix="/users", tags=["Users"])
@@ -9,6 +9,26 @@ router = APIRouter(prefix="/users", tags=["Users"])
 @router.get("/me", response_model=UserResponse)
 def read_current_user(current_user=Depends(get_current_active_user)):
     return current_user
+
+@router.put("/me", response_model=UserResponse)
+def update_current_user(
+    user_update: UserUpdate,
+    current_user=Depends(get_current_active_user),
+    user_service: UserService = Depends(get_user_service)
+):
+    """
+    Update current user profile.
+    """
+    # Filter out None values
+    update_data = user_update.model_dump(exclude_unset=True)
+    
+    # Prevent users from changing their own role or status via this endpoint
+    if "role" in update_data:
+        del update_data["role"]
+    if "status" in update_data:
+        del update_data["status"]
+        
+    return user_service.update_user(current_user, update_data)
 
 @router.get("", response_model=List[UserResponse], dependencies=[Depends(RoleChecker(["admin"]))])
 def read_users(
@@ -22,3 +42,27 @@ def read_users(
     Only accessible by users with 'admin' role.
     """
     return user_service.get_users_by_tenant(current_user.tenant_id, skip, limit)
+
+@router.put("/{user_id}", response_model=UserResponse, dependencies=[Depends(RoleChecker(["admin", "super_admin"]))])
+def update_user(
+    user_id: str,
+    user_update: UserUpdate,
+    current_user=Depends(get_current_active_user),
+    user_service: UserService = Depends(get_user_service)
+):
+    """
+    Update a user.
+    - Admins can only update users in their own tenant.
+    - Super Admins can update any user.
+    """
+    if current_user.role == "super_admin":
+        target_user = user_service.get_user_by_id(user_id)
+    else:
+        # Ensure target user belongs to same tenant for regular admins
+        target_user = user_service.get_user_by_id_and_tenant(user_id, current_user.tenant_id)
+        
+    if not target_user:
+        raise HTTPException(status_code=404, detail="User not found")
+        
+    update_data = user_update.model_dump(exclude_unset=True)
+    return user_service.update_user(target_user, update_data)

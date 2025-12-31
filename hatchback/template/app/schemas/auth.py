@@ -1,10 +1,11 @@
+from uuid import UUID
 from pydantic import BaseModel, Field
 from .user import UserResponse
 
 class LoginRequest(BaseModel):
     username: str
     password: str
-    subdomain: str
+    tenant_id: UUID
 
 class Token(BaseModel):
     access_token: str

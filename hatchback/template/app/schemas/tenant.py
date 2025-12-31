@@ -13,6 +13,14 @@ class TenantBase(BaseModel):
 class TenantCreate(TenantBase):
     pass
 
+class TenantPublic(BaseModel):
+    """Schema for public tenant information (safe to expose)"""
+    id: UUID
+    name: str
+    subdomain: str
+    
+    model_config = ConfigDict(from_attributes=True)
+
 class TenantUpdate(BaseModel):
     name: Optional[str] = Field(None, min_length=1, max_length=100)
     subdomain: Optional[str] = Field(None, min_length=3, max_length=63, pattern="^[a-z0-9-]+$")

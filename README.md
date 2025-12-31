@@ -1,6 +1,5 @@
 <img width="715" height="116" alt="image" src="https://github.com/user-attachments/assets/fc0f049c-02de-4633-89b2-5a632fd4ff27" />
 
-
 **The high-performance, drift-ready boilerplate for FastAPI.**
 
 Hatchback is a powerful CLI tool designed to bootstrap and manage production-ready FastAPI applications. It comes pre-loaded with best practices, security hardening, and a modular architecture that scales.
@@ -47,7 +46,7 @@ Before hitting the gas, ensure your database is running and the schema is initia
 **1. Start Database:**
 
 ```bash
-cd my_project
+cd my_project_name
 docker-compose up -d db
 ```
 
@@ -93,6 +92,7 @@ hatchback migrate create -m "add products table"
 # Apply migrations
 hatchback migrate apply
 ```
+
 # 5. Seed Data
 
 Populate your database with initial data (default tenant and admin user).
@@ -101,7 +101,6 @@ Populate your database with initial data (default tenant and admin user).
 hatchback seed
 ```
 
-##
 ## 🏗️ Architecture Explained
 
 Hatchback follows a **Service-Repository** pattern to keep your code modular and testable.
@@ -110,9 +109,10 @@ Hatchback follows a **Service-Repository** pattern to keep your code modular and
 2. **Services (`app/services/`)**: Contain the business logic. They orchestrate data operations using Repositories.
 3. **Repositories (`app/repositories/`)**: Handle direct database interactions (CRUD). They abstract the SQL/ORM details from the rest of the app.
 4. **Models (`app/models/`)**: SQLAlchemy database definitions.
-hatchback test
+   hatchback test
 
 # Run with coverage (pass arguments to pytest)
+
 hatchback test --
 Hatchback projects come with `pytest` configured.
 
