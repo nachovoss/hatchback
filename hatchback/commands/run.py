@@ -7,7 +7,15 @@ def handle_run(args):
         console.print("[bold red]Error: 'app' directory not found. Are you in the project root?[/bold red]")
         return
 
-    uvicorn_cmd = get_venv_executable("uvicorn")
+    # Use python -m uvicorn instead of uvicorn executable directly to avoid path issues on Windows
+    if os.name == 'nt':
+        python_exe = os.path.join("venv", "Scripts", "python.exe")
+    else:
+        python_exe = os.path.join("venv", "bin", "python")
+    
+    if not os.path.exists(python_exe):
+        python_exe = "python"
+
     console.print(f"[bold green]Starting server on {args.host}:{args.port}...[/bold green]")
     
     env = os.environ.copy()
@@ -15,7 +23,7 @@ def handle_run(args):
 
     try:
         subprocess.run(
-            [uvicorn_cmd, "app.main:app", "--reload", "--host", args.host, "--port", str(args.port)], 
+            [python_exe, "-m", "uvicorn", "app.main:app", "--reload", "--host", args.host, "--port", str(args.port)], 
             check=True,
             env=env
         )
