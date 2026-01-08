@@ -1,0 +1,23 @@
+{
+  "tenants": [
+    {
+      "name": "Default Tenant",
+      "subdomain": "default",
+      "domain": "localhost",
+      "is_active": true
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "email": "admin@example.com",
+      "password": "admin",
+      "role": "admin",
+      "status": "active",
+      "name": "Admin",
+      "surname": "User",
+      "tenant": "Default Tenant"
+    }
+  ]
+}
+

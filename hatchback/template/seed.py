@@ -10,57 +10,65 @@ from app.config.database import SessionLocal
 from app.models.user import User
 from app.models.tenant import Tenant
 
+import json
+
 def seed():
     db = SessionLocal()
     try:
         print("Seeding database...")
-        
-        # 1. Create Default Tenant
-        default_tenant_name = "Default Tenant"
-        default_subdomain = "default"
-        
-        tenant = db.query(Tenant).filter(Tenant.subdomain == default_subdomain).first()
-        if not tenant:
-            print(f"Creating default tenant: {default_tenant_name}")
-            tenant = Tenant(
-                name=default_tenant_name,
-                subdomain=default_subdomain,
-                domain="localhost",
-                is_active=True
-            )
-            db.add(tenant)
-            db.commit()
-            db.refresh(tenant)
-        else:
-            print(f"Tenant {default_tenant_name} already exists.")
 
-        # 2. Create Admin User
-        admin_username = "admin"
-        admin_email = "admin@example.com"
-        
-        admin = db.query(User).filter(User.username == admin_username, User.tenant_id == tenant.id).first()
-        if not admin:
-            print(f"Creating admin user: {admin_username}")
-            
-            password = os.environ.get("ADMIN_PASSWORD", "admin")
-            # Hash password using bcrypt
-            hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-            
-            admin = User(
-                tenant_id=tenant.id,
-                username=admin_username,
-                email=admin_email,
-                hashed_password=hashed_password,
-                role="admin",
-                status="active",
-                name="Admin",
-                surname="User"
-            )
-            db.add(admin)
-            db.commit()
-            print(f"Admin user created successfully! Username: {admin_username}, Password: {password}")
-        else:
-            print(f"User {admin_username} already exists.")
+        seeds_path = os.path.join(os.getcwd(), "seeds.json")
+        if not os.path.exists(seeds_path):
+             print(f"Seeds file not found at {seeds_path}. Skipping seeding.")
+             return
+
+        with open(seeds_path, "r") as f:
+            seeds_data = json.load(f)
+
+        # 1. Seed Tenants
+        for tenant_data in seeds_data.get("tenants", []):
+            tenant = db.query(Tenant).filter(Tenant.subdomain == tenant_data["subdomain"]).first()
+            if not tenant:
+                print(f"Creating tenant: {tenant_data['name']}")
+                tenant = Tenant(**tenant_data)
+                db.add(tenant)
+                db.commit()
+                db.refresh(tenant)
+            else:
+                 # existing tenant logic
+                 pass
+
+        # 2. Seed Users
+        for user_data in seeds_data.get("users", []):
+            tenant_name = user_data.pop("tenant", None)
+            if not tenant_name:
+                print(f"Skipping user {user_data.get('username')} - No tenant specified.")
+                continue
+
+            # Find tenant
+            tenant = db.query(Tenant).filter(Tenant.name == tenant_name).first()
+            if not tenant:
+                print(f"Tenant '{tenant_name}' not found for user {user_data.get('username')}.")
+                continue
+
+            user = db.query(User).filter(User.username == user_data["username"], User.tenant_id == tenant.id).first()
+            if not user:
+                print(f"Creating user: {user_data['username']}")
+                
+                password = user_data.pop("password")
+                # Hash password using bcrypt
+                hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+                
+                user = User(
+                    tenant_id=tenant.id,
+                    hashed_password=hashed_password,
+                    **user_data
+                )
+                db.add(user)
+                db.commit()
+                print(f"User {user_data['username']} created successfully!")
+            else:
+                print(f"User {user_data['username']} already exists.")
             
     except Exception as e:
         print(f"Error seeding database: {e}")
