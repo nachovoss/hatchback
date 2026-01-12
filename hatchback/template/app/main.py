@@ -23,7 +23,12 @@ async def lifespan(app: FastAPI):
     logger.info("Shutting down application...")
 
 
-app = FastAPI(title="FastAPI Alembic Boilerplate", lifespan=lifespan)
+app = FastAPI(
+    title="Hatchback",
+    description="The high-performance, drift-ready boilerplate for FastAPI.",
+    version="1.0.0",
+    lifespan=lifespan
+)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 

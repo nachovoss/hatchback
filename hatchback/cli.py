@@ -8,6 +8,7 @@ from .commands.seed import handle_seed
 from .commands.test import handle_test
 from .commands.inspect import handle_inspect
 from .utils import console, play_intro
+from . import __version__
 
 def main():
     parser = argparse.ArgumentParser(
@@ -40,6 +41,9 @@ Examples:
   hatchback test
 """
     )
+    
+    parser.add_argument("--version", action="version", version=f"Hatchback CLI v{__version__}")
+    
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     init_parser = subparsers.add_parser(
