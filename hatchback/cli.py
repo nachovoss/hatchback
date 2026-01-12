@@ -6,6 +6,7 @@ from .commands.migrate import handle_migrate
 from .commands.make import handle_make
 from .commands.seed import handle_seed
 from .commands.test import handle_test
+from .commands.inspect import handle_inspect
 from .utils import console, play_intro
 
 def main():
@@ -31,6 +32,9 @@ Examples:
 
   # Seed the database with default tenant and admin user
   hatchback seed
+
+  # Inspect an existing database and generate models
+  hatchback inspect --url postgresql://user:pass@localhost/db --output app/models/legacy.py
 
   # Run tests
   hatchback test
@@ -80,6 +84,15 @@ Examples:
     )
     seed_parser.add_argument("--password", help="Admin password (optional, will prompt if not provided)")
 
+    inspect_parser = subparsers.add_parser(
+        "inspect",
+        help="Inspect an existing database and generate SQLAlchemy models",
+        description="Reflects tables from a database URL and generates SQLAlchemy model code using sqlacodegen."
+    )
+    inspect_parser.add_argument("--url", help="Database connection URL")
+    inspect_parser.add_argument("--output", help="Output file path (default: app/models/imported.py)")
+    inspect_parser.add_argument("--scaffold", action="store_true", help="Automatically scaffold full architecture (Service, Repo, etc.) for each table")
+
     test_parser = subparsers.add_parser(
         "test", 
         help="Run tests using pytest",
@@ -92,6 +105,7 @@ Examples:
     elif args.command == "migrate": handle_migrate(args)
     elif args.command == "make": handle_make(args)
     elif args.command == "seed": handle_seed(args)
+    elif args.command == "inspect": handle_inspect(args)
     elif args.command == "test": handle_test(args)
     else:
         play_intro()
@@ -102,6 +116,9 @@ Examples:
         console.print("  [green]run[/green]       Run the development server")
         console.print("  [green]migrate[/green]   Manage database migrations")
         console.print("  [green]make[/green]      Scaffold a new resource")
+        console.print("  [green]seed[/green]      Seed database with default data")
+        console.print("  [green]inspect[/green]   Inspect existing DB and scaffold")
+        console.print("  [green]test[/green]      Run tests")
         console.print("\nRun 'hatchback [command] --help' for more information.")
 
 if __name__ == "__main__":

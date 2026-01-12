@@ -11,6 +11,9 @@ setup(
     include_package_data=True,
     install_requires=[
         "rich",
+        "sqlacodegen",
+        "python-dotenv",
+        "psycopg2-binary"
     ],
     entry_points={
         "console_scripts": [

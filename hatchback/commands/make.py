@@ -1,8 +1,8 @@
 import os
 from ..utils import console, to_pascal_case
 
-def handle_make(args):
-    resource = args.resource.lower()
+def scaffold_resource(resource):
+    resource = resource.lower()
     Resource = to_pascal_case(resource)
     
     console.print(f"[bold green]Scaffolding resource: {Resource}[/bold green]")
@@ -113,3 +113,6 @@ def handle_make(args):
             with open(repos_init_path, "w") as f:
                 f.write(content)
             console.print(f"[green]Updated app/repositories/__init__.py[/green]")
+
+def handle_make(args):
+    scaffold_resource(args.resource)

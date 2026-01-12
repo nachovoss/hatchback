@@ -102,6 +102,19 @@ Populate your database with initial data (default tenant and admin user).
 hatchback seed
 ```
 
+### 6. Import Existing Database
+
+Have an existing database? Hatchback can inspect it and generate your entire project architecture automatically.
+
+```bash
+# Output models only to a file
+hatchback inspect --url postgresql://user:pass@localhost:5432/mydb --output app/models/legacy.py
+
+# Full Scaffold Mode (Recommended)
+# Generates Models, Services, Repositories, Schemas, and Routes for every table
+hatchback inspect --scaffold --url postgresql://user:pass@localhost:5432/mydb
+```
+
 ## 🏗️ Architecture Explained
 
 Hatchback follows a **Service-Repository** pattern to keep your code modular and testable.
