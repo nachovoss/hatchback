@@ -1,0 +1,34 @@
+name: Deploy Website to Hostinger
+
+on:
+  # Deploy when web/ files change on main
+  push:
+    branches: [main]
+    paths:
+      - 'web/**'
+
+  # Deploy on new release
+  release:
+    types: [published]
+
+  # Manual trigger
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: 🚀 Deploy to Hostinger
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📂 Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./web/
+          server-dir: ./public_html/
+          dangerous-clean-slate: false

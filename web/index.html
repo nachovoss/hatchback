@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hatchback — The Drift-Ready FastAPI Boilerplate</title>
+  <meta name="description"
+    content="Hatchback is a powerful CLI tool to bootstrap and manage production-ready FastAPI applications. Secure, fast, and beautifully architected.">
+  <meta name="keywords"
+    content="fastapi, python, cli, boilerplate, scaffold, sqlalchemy, alembic, docker, rest api, hatchback">
+  <meta name="author" content="Ignacio Bares">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏎️</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Star Background -->
+  <canvas id="star-canvas"></canvas>
+
+  <!-- ============================================
+       NAVIGATION
+       ============================================ -->
+  <nav class="navbar" id="navbar">
+    <a href="#" class="nav-brand">
+      <img src="https://github.com/user-attachments/assets/2a0bb698-bec4-4501-899e-fd4ab842d132" alt="Hatchback"
+        class="brand-logo">
+
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#quickstart">Quick Start</a></li>
+      <li><a href="#cli">CLI</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#links">Docs & Links</a></li>
+      <li><a href="https://github.com/nachovoss/hatchback" target="_blank" rel="noopener" class="nav-cta">⭐ Star on
+          GitHub</a></li>
+    </ul>
+    <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- ============================================
+       HERO SECTION
+       ============================================ -->
+  <section class="hero" id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <img src="https://github.com/user-attachments/assets/2a0bb698-bec4-4501-899e-fd4ab842d132" alt="Hatchback Logo"
+        class="hero-logo">
+
+      <span class="hero-badge">
+        <span class="badge-dot"></span>
+        v0.1.9 — Now with <code
+          style="color: var(--neon-cyan); background: rgba(0,255,255,0.08); padding: 2px 6px; border-radius: 3px; font-size: 0.75rem;">hbk upgrade</code>
+      </span>
+
+      <h1 class="hero-title">
+        <span class="title-line">The <span class="gradient-text">Drift-Ready</span></span>
+        <span class="title-line">Boilerplate for FastAPI</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Bootstrap production-ready FastAPI applications in seconds. Pre-loaded with security, clean architecture,
+        Docker, and AI-powered agent skills.
+      </p>
+
+      <div class="hero-actions">
+        <div class="install-box" title="Click to copy">
+          <span class="prompt">$</span>
+          <span>pip install hatchback</span>
+          <span class="copy-icon">📋</span>
+          <span class="copied-tooltip">Copied!</span>
+        </div>
+        <a href="#quickstart" class="btn-primary">
+          🏁 Get Started
+        </a>
+        <a href="https://github.com/nachovoss/hatchback" target="_blank" rel="noopener" class="btn-secondary">
+          View on GitHub →
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-value">10+</span>
+          <span class="stat-label">CLI Commands</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">
+            < 30s</span>
+              <span class="stat-label">Project Setup</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">0 Config</span>
+          <span class="stat-label">To Production</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ============================================
+       FEATURES SECTION
+       ============================================ -->
+  <section class="features" id="features">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="section-tag">// what's under the hood</span>
+        <h2 class="section-title">Built for Speed. <span class="gradient-text">Engineered for Scale.</span></h2>
+        <p class="section-subtitle">Everything you need to go from zero to production — no corners cut.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <span class="feature-icon">🚀</span>
+          <h3>Production Ready</h3>
+          <p>SQLAlchemy 2.0, Pydantic v2, and Alembic migrations — pre-wired and ready to deploy.</p>
+        </div>
+        <div class="feature-card reveal">
+          <span class="feature-icon">🛡️</span>
+          <h3>Secure by Default</h3>
+          <p>Rate limiting, JWT auth, secure secret generation, and non-root Docker containers.</p>
+        </div>
+        <div class="feature-card reveal">
+          <span class="feature-icon">⚡</span>
+          <h3>Blazing Fast</h3>
+          <p>Optional <code>uv</code> support for lightning-fast dependency management and virtualenvs.</p>
+        </div>
+        <div class="feature-card reveal">
+          <span class="feature-icon">🏗️</span>
+          <h3>Clean Architecture</h3>
+          <p>Service-Repository pattern for maintainable, testable, and scalable code from day one.</p>
+        </div>
+        <div class="feature-card reveal">
+          <span class="feature-icon">✅</span>
+          <h3>Testing Ready</h3>
+          <p>Integrated <code>pytest</code> setup with a single <code>hbk test</code> command. No excuses.</p>
+        </div>
+        <div class="feature-card reveal">
+          <span class="feature-icon">🐳</span>
+          <h3>Dockerized</h3>
+          <p>Ready-to-deploy <code>docker-compose</code> setup with healthchecks and non-root security.</p>
+        </div>
+        <div class="feature-card reveal">
+          <span class="feature-icon">🤖</span>
+          <h3>AI-Powered</h3>
+          <p>Built-in Agent Skills for GitHub Copilot and VS Code agent mode — your AI understands your project.</p>
+        </div>
+        <div class="feature-card reveal">
+          <span class="feature-icon">🏎️</span>
+          <h3>Drift Mode</h3>
+          <p>A CLI that drives as good as it looks. Scaffold, migrate, seed, and test — all from the terminal.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ============================================
+       QUICKSTART SECTION
+       ============================================ -->
+  <section class="quickstart" id="quickstart">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="section-tag">// ignition sequence</span>
+        <h2 class="section-title">From Zero to API in <span class="gradient-text">30 Seconds</span></h2>
+        <p class="section-subtitle">Four steps. That's all it takes to get a fully scaffolded, production-ready FastAPI
+          project.</p>
+      </div>
+
+      <div class="quickstart-steps">
+        <!-- Step 1 -->
+        <div class="step reveal">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Install Hatchback</h3>
+            <p>Grab it from PyPI — it's lightweight and has zero heavy dependencies.</p>
+            <div class="code-block">
+              <span class="line"><span class="prompt-char">$</span> pip install hatchback</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step reveal">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Initialize Your Project</h3>
+            <p>Scaffold a complete FastAPI project with database, auth, Docker, and tests.</p>
+            <div class="code-block">
+              <span class="line"><span class="prompt-char">$</span> hbk init my_project</span>
+              <span class="line"><span class="comment"># Creates: routes, models, schemas, services, repos, tests,
+                  docker, alembic...</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step reveal">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Generate Resources</h3>
+            <p>Don't write boilerplate — generate models, schemas, services, and routes in one command.</p>
+            <div class="code-block">
+              <span class="line"><span class="prompt-char">$</span> hbk make product</span>
+              <span class="line"><span class="comment"># ✓ Model, Schema, Repository, Service, and Route
+                  created</span></span>
+              <span class="line"><span class="comment"># ✓ Automatically registered in your app</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step reveal">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>Start the Engine</h3>
+            <p>Fire up the dev server with hot-reloading and you're live.</p>
+            <div class="code-block">
+              <span class="line"><span class="prompt-char">$</span> hbk run</span>
+              <span class="line"><span class="comment"># 🏎️ Server live at http://localhost:8000</span></span>
+              <span class="line"><span class="comment"># 📄 Docs at http://localhost:8000/docs</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ============================================
+       CLI REFERENCE SECTION
+       ============================================ -->
+  <section class="cli-ref" id="cli">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="section-tag">// command center</span>
+        <h2 class="section-title">Full <span class="gradient-text">CLI Reference</span></h2>
+        <p class="section-subtitle">Every command at your fingertips. All accessible via <code
+            style="color: var(--neon-cyan);">hbk</code> or <code style="color: var(--neon-cyan);">hatchback</code>.</p>
+      </div>
+
+      <div class="cli-table-wrap reveal">
+        <table>
+          <thead>
+            <tr>
+              <th>Command</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>hbk init &lt;name&gt;</code></td>
+              <td>Initialize a new project with full scaffolding</td>
+            </tr>
+            <tr>
+              <td><code>hbk run</code></td>
+              <td>Start dev server with hot-reload</td>
+            </tr>
+            <tr>
+              <td><code>hbk make &lt;resource&gt;</code></td>
+              <td>Scaffold a new resource (model, schema, service, route…)</td>
+            </tr>
+            <tr>
+              <td><code>hbk remove &lt;resource&gt;</code></td>
+              <td>Remove a resource and clean up all imports</td>
+            </tr>
+            <tr>
+              <td><code>hbk migrate create -m "msg"</code></td>
+              <td>Create a new Alembic migration</td>
+            </tr>
+            <tr>
+              <td><code>hbk migrate apply</code></td>
+              <td>Apply pending database migrations</td>
+            </tr>
+            <tr>
+              <td><code>hbk seed</code></td>
+              <td>Seed database with initial data (tenant + admin)</td>
+            </tr>
+            <tr>
+              <td><code>hbk inspect --url &lt;db_url&gt;</code></td>
+              <td>Inspect existing DB and generate models &amp; scaffolds</td>
+            </tr>
+            <tr>
+              <td><code>hbk upgrade</code></td>
+              <td>Sync latest agent skills and infra files</td>
+            </tr>
+            <tr>
+              <td><code>hbk test</code></td>
+              <td>Run the test suite</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ============================================
+       ARCHITECTURE SECTION
+       ============================================ -->
+  <section class="architecture" id="architecture">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="section-tag">// under the chassis</span>
+        <h2 class="section-title">Service-Repository <span class="gradient-text">Architecture</span></h2>
+        <p class="section-subtitle">A clean, layered architecture that keeps your code modular and testable.</p>
+      </div>
+
+      <!-- Flow diagram -->
+      <div class="arch-flow reveal">
+        <div class="arch-node">
+          <span class="node-icon">🌐</span>
+          <span class="node-label">Routes</span>
+          <span class="node-desc">HTTP endpoints</span>
+        </div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node">
+          <span class="node-icon">⚙️</span>
+          <span class="node-label">Services</span>
+          <span class="node-desc">Business logic</span>
+        </div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node">
+          <span class="node-icon">🗄️</span>
+          <span class="node-label">Repositories</span>
+          <span class="node-desc">Data access</span>
+        </div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node">
+          <span class="node-icon">💾</span>
+          <span class="node-label">Models</span>
+          <span class="node-desc">SQLAlchemy ORM</span>
+        </div>
+      </div>
+
+      <!-- Project tree -->
+      <div class="arch-tree reveal">
+        <span class="dir">my_project/</span>
+        ├── <span class="dir">.github/</span>
+        │ └── <span class="dir">skills/</span> <span class="comment"># Agent Skills for AI assistants</span>
+        ├── <span class="dir">app/</span>
+        │ ├── <span class="dir">config/</span> <span class="comment"># Database, Security, Limiter</span>
+        │ ├── <span class="dir">models/</span> <span class="comment"># SQLAlchemy Database Models</span>
+        │ ├── <span class="dir">schemas/</span> <span class="comment"># Pydantic Data Schemas</span>
+        │ ├── <span class="dir">repositories/</span> <span class="comment"># Data Access Layer (CRUD)</span>
+        │ ├── <span class="dir">services/</span> <span class="comment"># Business Logic</span>
+        │ ├── <span class="dir">routes/</span> <span class="comment"># API Endpoints</span>
+        │ ├── <span class="file">dependencies.py</span>
+        │ └── <span class="file">main.py</span>
+        ├── <span class="dir">alembic/</span> <span class="comment"># Database Migrations</span>
+        ├── <span class="dir">tests/</span> <span class="comment"># Pytest Suite</span>
+        ├── <span class="file">docker-compose.yml</span>
+        └── <span class="file">requirements.txt</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- ============================================
+       DOCS & LINKS SECTION
+       ============================================ -->
+  <section class="docs-section" id="links">
+    <div class="section-container">
+      <div class="section-header reveal">
+        <span class="section-tag">// pit stop</span>
+        <h2 class="section-title">Documentation & <span class="gradient-text">Resources</span></h2>
+        <p class="section-subtitle">Everything you need — source code, docs, and ways to support the project.</p>
+      </div>
+
+      <div class="docs-grid">
+        <a href="https://github.com/nachovoss/hatchback" target="_blank" rel="noopener" class="doc-card reveal">
+          <span class="doc-icon">🐙</span>
+          <h3>GitHub</h3>
+          <p>Source code, issues, and contributions</p>
+          <span class="doc-arrow">→</span>
+        </a>
+
+        <a href="https://pypi.org/project/hatchback/" target="_blank" rel="noopener" class="doc-card reveal">
+          <span class="doc-icon">📦</span>
+          <h3>PyPI</h3>
+          <p>Install the latest version from PyPI</p>
+          <span class="doc-arrow">→</span>
+        </a>
+
+        <a href="https://github.com/nachovoss/hatchback#readme" target="_blank" rel="noopener" class="doc-card reveal">
+          <span class="doc-icon">📖</span>
+          <h3>Documentation</h3>
+          <p>Full README with guides and examples</p>
+          <span class="doc-arrow">→</span>
+        </a>
+
+        <a href="#donate" class="doc-card reveal">
+          <span class="doc-icon">💜</span>
+          <h3>Donate</h3>
+          <p>Support the project and fuel development</p>
+          <span class="doc-arrow">→</span>
+        </a>
+
+        <a href="https://github.com/nachovoss/hatchback/blob/main/LICENSE" target="_blank" rel="noopener"
+          class="doc-card reveal">
+          <span class="doc-icon">📜</span>
+          <h3>License</h3>
+          <p>Apache 2.0 — open and permissive</p>
+          <span class="doc-arrow">→</span>
+        </a>
+
+        <a href="https://github.com/nachovoss/hatchback/issues" target="_blank" rel="noopener" class="doc-card reveal">
+          <span class="doc-icon">🐛</span>
+          <h3>Issue Tracker</h3>
+          <p>Report bugs or request new features</p>
+          <span class="doc-arrow">→</span>
+        </a>
+
+        <a href="https://github.com/nachovoss/hatchback/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener"
+          class="doc-card reveal">
+          <span class="doc-icon">🤝</span>
+          <h3>Contributing</h3>
+          <p>Learn how to contribute to Hatchback</p>
+          <span class="doc-arrow">→</span>
+        </a>
+
+        <a href="https://github.com/nachovoss/hatchback/blob/main/SECURITY.md" target="_blank" rel="noopener"
+          class="doc-card reveal">
+          <span class="doc-icon">🔒</span>
+          <h3>Security</h3>
+          <p>Security policy and reporting</p>
+          <span class="doc-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-icon">🏎️</span>
+        <span class="brand-name">HATCHBACK</span>
+      </div>
+      <div class="footer-copy">
+        Built with 💜 and 🏎️ by <a href="https://github.com/nachovoss" target="_blank" rel="noopener">Ignacio Bares</a>
+        &amp; the Hatchback Team.
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/nachovoss/hatchback" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://pypi.org/project/hatchback/" target="_blank" rel="noopener">PyPI</a>
+        <a href="#donate">Donate</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
