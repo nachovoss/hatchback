@@ -18,6 +18,7 @@ setup(
     entry_points={
         "console_scripts": [
             "hatchback=hatchback.cli:main",
+            "hbk=hatchback.cli:main",
         ],
     },
     long_description=long_description,

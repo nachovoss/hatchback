@@ -1,4 +1,5 @@
 recursive-include hatchback/template *
+recursive-include hatchback/template/.github *
 recursive-include hatchback/scaffold_templates *
 include hatchback/template/pyproject.toml
 global-exclude __pycache__
