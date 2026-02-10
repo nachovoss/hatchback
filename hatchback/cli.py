@@ -5,6 +5,7 @@ from .commands.run import handle_run
 from .commands.migrate import handle_migrate
 from .commands.make import handle_make
 from .commands.remove import handle_remove
+from .commands.upgrade import handle_upgrade
 from .commands.seed import handle_seed
 from .commands.test import handle_test
 from .commands.inspect import handle_inspect
@@ -16,33 +17,36 @@ def main():
         description="Hatchback CLI - A production-ready FastAPI boilerplate generator and manager.",
         formatter_class=argparse.RawTextHelpFormatter,
         epilog="""
-Examples:
+Examples (tip: 'hbk' is a shortcut for 'hatchback'):
   # Initialize a new project
-  hatchback init my_awesome_project
+  hbk init my_awesome_project
 
   # Run the development server
-  hatchback run --host 0.0.0.0 --port 8000
+  hbk run --host 0.0.0.0 --port 8000
 
   # Create a new migration
-  hatchback migrate create -m "create users table"
+  hbk migrate create -m "create users table"
 
   # Apply migrations
-  hatchback migrate apply
+  hbk migrate apply
 
   # Scaffold a new resource (Model, Service, Repository, etc.)
-  hatchback make product
+  hbk make product
 
   # Remove a scaffolded resource and clean up imports
-  hatchback remove product
+  hbk remove product
 
   # Seed the database with default tenant and admin user
-  hatchback seed
+  hbk seed
 
   # Inspect an existing database and generate models
-  hatchback inspect --url postgresql://user:pass@localhost/db --output app/models/legacy.py
+  hbk inspect --url postgresql://user:pass@localhost/db --output app/models/legacy.py
+
+  # Upgrade skills and infrastructure in an existing project
+  hbk upgrade
 
   # Run tests
-  hatchback test
+  hbk test
 """
     )
     
@@ -109,6 +113,12 @@ Examples:
     inspect_parser.add_argument("--output", help="Output file path (default: app/models/imported.py)")
     inspect_parser.add_argument("--scaffold", action="store_true", help="Automatically scaffold full architecture (Service, Repo, etc.) for each table")
 
+    upgrade_parser = subparsers.add_parser(
+        "upgrade",
+        help="Sync latest skills and infrastructure files into this project",
+        description="Update an existing project with the latest agent skills and infrastructure files from the installed version of Hatchback. Does not touch Docker files, user code, or config."
+    )
+
     test_parser = subparsers.add_parser(
         "test", 
         help="Run tests using pytest",
@@ -123,6 +133,7 @@ Examples:
     elif args.command == "remove": handle_remove(args)
     elif args.command == "seed": handle_seed(args)
     elif args.command == "inspect": handle_inspect(args)
+    elif args.command == "upgrade": handle_upgrade(args)
     elif args.command == "test": handle_test(args)
     else:
         play_intro()
@@ -136,6 +147,7 @@ Examples:
         console.print("  [green]remove[/green]    Remove a scaffolded resource")
         console.print("  [green]seed[/green]      Seed database with default data")
         console.print("  [green]inspect[/green]   Inspect existing DB and scaffold")
+        console.print("  [green]upgrade[/green]   Sync latest skills and infra files")
         console.print("  [green]test[/green]      Run tests")
         console.print("\nRun 'hatchback [command] --help' for more information.")
 

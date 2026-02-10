@@ -59,6 +59,7 @@ Run these from the **project root** (where `requirements.txt` lives).
 | `hatchback seed` | Seed database with default tenant and admin user |
 | `hatchback test` | Run pytest test suite |
 | `hatchback inspect --url <db_url>` | Reflect an existing DB and generate SQLAlchemy models |
+| `hatchback upgrade` | Sync latest skills and infrastructure files into an existing project |
 
 ### Scaffolding a new resource
 
