@@ -52,6 +52,7 @@ Run these from the **project root** (where `requirements.txt` lives).
 | Command | Description |
 |---|---|
 | `hatchback make <resource>` | Scaffold model, schema, repo, service, route, and test for a new resource |
+| `hatchback remove <resource>` | Remove a scaffolded resource and clean up all imports |
 | `hatchback migrate create -m "message"` | Create a new Alembic migration |
 | `hatchback migrate apply` | Apply pending migrations |
 | `hatchback run` | Start Uvicorn dev server with hot-reload |
@@ -74,6 +75,16 @@ This creates:
 - `tests/test_products.py` — Pytest stubs
 
 It also auto-updates the `__init__.py` files in models, routes, services, and repositories.
+
+### Removing a resource
+
+```bash
+hatchback remove product        # asks for confirmation
+hatchback remove product --force # skips confirmation
+```
+
+This deletes all 6 files created by `make` and removes the corresponding imports
+from all `__init__.py` files.
 
 ## Database & Migrations
 

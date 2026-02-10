@@ -131,6 +131,7 @@ def handle_init(args):
         console.print("  [green]run[/green]       Run the development server")
         console.print("  [green]migrate[/green]   Manage database migrations")
         console.print("  [green]make[/green]      Scaffold a new resource")
+        console.print("  [green]remove[/green]    Remove a scaffolded resource")
         console.print("  [green]seed[/green]      Seed the database with initial data")
         console.print("  [green]test[/green]      Run the test suite")
         console.print("\nRun 'hatchback --help' for more information.")

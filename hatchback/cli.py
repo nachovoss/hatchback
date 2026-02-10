@@ -4,6 +4,7 @@ from .commands.init import handle_init
 from .commands.run import handle_run
 from .commands.migrate import handle_migrate
 from .commands.make import handle_make
+from .commands.remove import handle_remove
 from .commands.seed import handle_seed
 from .commands.test import handle_test
 from .commands.inspect import handle_inspect
@@ -30,6 +31,9 @@ Examples:
 
   # Scaffold a new resource (Model, Service, Repository, etc.)
   hatchback make product
+
+  # Remove a scaffolded resource and clean up imports
+  hatchback remove product
 
   # Seed the database with default tenant and admin user
   hatchback seed
@@ -81,6 +85,14 @@ Examples:
     )
     make_parser.add_argument("resource", help="Name of the resource (snake_case)")
 
+    remove_parser = subparsers.add_parser(
+        "remove",
+        help="Remove a scaffolded resource and clean up all imports",
+        description="Remove a previously scaffolded resource. Deletes model, schema, repository, service, route and test files, and cleans up __init__.py imports."
+    )
+    remove_parser.add_argument("resource", help="Name of the resource to remove (snake_case)")
+    remove_parser.add_argument("--force", "-f", action="store_true", help="Skip confirmation prompt")
+
     seed_parser = subparsers.add_parser(
         "seed", 
         help="Seed the database with default tenant and admin user",
@@ -108,6 +120,7 @@ Examples:
     elif args.command == "run": handle_run(args)
     elif args.command == "migrate": handle_migrate(args)
     elif args.command == "make": handle_make(args)
+    elif args.command == "remove": handle_remove(args)
     elif args.command == "seed": handle_seed(args)
     elif args.command == "inspect": handle_inspect(args)
     elif args.command == "test": handle_test(args)
@@ -120,6 +133,7 @@ Examples:
         console.print("  [green]run[/green]       Run the development server")
         console.print("  [green]migrate[/green]   Manage database migrations")
         console.print("  [green]make[/green]      Scaffold a new resource")
+        console.print("  [green]remove[/green]    Remove a scaffolded resource")
         console.print("  [green]seed[/green]      Seed database with default data")
         console.print("  [green]inspect[/green]   Inspect existing DB and scaffold")
         console.print("  [green]test[/green]      Run tests")

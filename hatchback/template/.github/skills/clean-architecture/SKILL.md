@@ -170,6 +170,7 @@ After creating all layer files, register them in the `__init__.py` files:
 4. **`app/repositories/__init__.py`** — import repo, add to `__all__`
 
 Or simply run `hbk make <resource>` which does all of this automatically.
+To undo, run `hbk remove <resource>` which deletes all files and cleans up imports.
 
 ## Testing Pattern
 
