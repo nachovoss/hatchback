@@ -11,8 +11,9 @@ Hatchback is a powerful CLI tool designed to bootstrap and manage production-rea
 - **🛡️ Secure by Default**: Rate limiting (SlowAPI), hardened Auth (JWT), secure secret generation, and non-root Docker containers.
 - **⚡ Blazing Fast**: Optional `uv` support for lightning-fast dependency management.
 - **🏗️ Clean Architecture**: Service-Repository pattern for maintainable code.
-- **✅ Testing Ready**: Integrated `pytest` setup with `hatchback test`.
+- **✅ Testing Ready**: Integrated `pytest` setup with `hbk test`.
 - **🐳 Dockerized**: Ready-to-deploy `docker-compose` setup with healthchecks.
+- **🤖 AI-Powered**: Built-in Agent Skills for GitHub Copilot and VS Code agent mode.
 - **🏎️ Drift Mode**: A CLI that drives as good as it looks.
 
 ## 📦 Installation
@@ -21,12 +22,15 @@ Hatchback is a powerful CLI tool designed to bootstrap and manage production-rea
 pip install hatchback
 ```
 
+> **Tip:** Use `hbk` as a shortcut for `hatchback` — all commands work with either.
+> For example, `hbk make product` is equivalent to `hatchback make product`.
+
 ## 🏁 Quick Start
 
 ### 1. Initialize a new project
 
 ```bash
-hatchback init my_project_name
+hbk init my_project_name
 ```
 
 You will be prompted for:
@@ -57,15 +61,15 @@ docker-compose up -d db
 Create and apply the first migration for the built-in models (User, Tenant).
 
 ```bash
-hatchback migrate create -m "initial_setup"
-hatchback migrate apply
+hbk migrate create -m "initial_setup"
+hbk migrate apply
 ```
 
 **3. Run Server:**
 Start the development server with hot-reloading.
 
 ```bash
-hatchback run
+hbk run
 ```
 
 🎉 **Success!** Your API is now live.
@@ -79,40 +83,68 @@ Don't write boilerplate. Generate Models, Schemas, Repositories, Services, and R
 Hatchback automatically registers your new routes and services, so they are ready to use immediately.
 
 ```bash
-hatchback make Product
+hbk make product
 ```
 
-### 4. Manage Migrations
+### 4. Remove Resources
+
+Changed your mind? Remove a scaffolded resource and clean up all imports automatically.
+
+```bash
+hbk remove product          # asks for confirmation
+hbk remove product --force  # skips confirmation
+```
+
+### 5. Manage Migrations
 
 Wrapper around Alembic to keep your database in sync.
 
 ```bash
 # Create a migration
-hatchback migrate create -m "add products table"
+hbk migrate create -m "add products table"
 
 # Apply migrations
-hatchback migrate apply
+hbk migrate apply
 ```
 
-# 5. Seed Data
+### 6. Seed Data
 
 Populate your database with initial data (default tenant and admin user).
 
 ```bash
-hatchback seed
+hbk seed
 ```
 
-### 6. Import Existing Database
+### 7. Import Existing Database
 
 Have an existing database? Hatchback can inspect it and generate your entire project architecture automatically.
 
 ```bash
 # Output models only to a file
-hatchback inspect --url postgresql://user:pass@localhost:5432/mydb --output app/models/legacy.py
+hbk inspect --url postgresql://user:pass@localhost:5432/mydb --output app/models/legacy.py
 
 # Full Scaffold Mode (Recommended)
 # Generates Models, Services, Repositories, Schemas, and Routes for every table
-hatchback inspect --scaffold --url postgresql://user:pass@localhost:5432/mydb
+hbk inspect --scaffold --url postgresql://user:pass@localhost:5432/mydb
+```
+
+### 8. Upgrade Existing Projects
+
+After upgrading Hatchback, sync the latest agent skills and infrastructure files into your project.
+
+```bash
+pip install --upgrade hatchback
+hbk upgrade
+```
+
+This syncs new files (like agent skills) without touching your Docker config, user code, or environment files.
+
+### 9. Run Tests
+
+Hatchback projects come with `pytest` configured.
+
+```bash
+hbk test
 ```
 
 ## 🏗️ Architecture Explained
@@ -123,25 +155,23 @@ Hatchback follows a **Service-Repository** pattern to keep your code modular and
 2. **Services (`app/services/`)**: Contain the business logic. They orchestrate data operations using Repositories.
 3. **Repositories (`app/repositories/`)**: Handle direct database interactions (CRUD). They abstract the SQL/ORM details from the rest of the app.
 4. **Models (`app/models/`)**: SQLAlchemy database definitions.
-   hatchback test
+5. **Schemas (`app/schemas/`)**: Pydantic validation and serialization schemas.
 
-# Run with coverage (pass arguments to pytest)
+## 🤖 Agent Skills
 
-hatchback test --
-Hatchback projects come with `pytest` configured.
+Hatchback projects ship with built-in [Agent Skills](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills) in `.github/skills/`:
 
-```bash
-# Run all tests
-pytest
+- **`hatchback`** — Full project overview, CLI commands, database config, auth system, and conventions.
+- **`clean-architecture`** — Layered architecture rules, code examples, anti-patterns, and testing patterns.
 
-# Run with coverage
-pytest --cov=app
-```
+These help AI coding assistants (GitHub Copilot, VS Code agent mode) understand your project structure and follow established patterns automatically.
 
 ## 📂 Project Structure
 
 ```
 my_project/
+├── .github/
+│   └── skills/       # Agent Skills for AI assistants
 ├── app/
 │   ├── config/       # Database, Security, Limiter config
 │   ├── models/       # SQLAlchemy Database Models
@@ -163,6 +193,21 @@ my_project/
 - **Secure Headers**: Trusted host middleware configuration.
 - **Password Hashing**: Argon2/Bcrypt support via Passlib.
 - **Docker Security**: Runs as a non-root user to prevent container breakout.
+
+## 🔧 CLI Reference
+
+| Command | Description |
+|---|---|
+| `hbk init <name>` | Initialize a new project |
+| `hbk run` | Start dev server with hot-reload |
+| `hbk make <resource>` | Scaffold a new resource |
+| `hbk remove <resource>` | Remove a resource and clean up imports |
+| `hbk migrate create -m "msg"` | Create a new Alembic migration |
+| `hbk migrate apply` | Apply pending migrations |
+| `hbk seed` | Seed database with initial data |
+| `hbk inspect --url <db_url>` | Inspect existing DB and generate models |
+| `hbk upgrade` | Sync latest skills and infra files |
+| `hbk test` | Run the test suite |
 
 ---
 
