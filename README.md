@@ -105,6 +105,15 @@ hbk migrate create -m "add products table"
 
 # Apply migrations
 hbk migrate apply
+
+# Rollback the last migration
+hbk migrate downgrade
+
+# Rollback multiple steps
+hbk migrate downgrade -r -2
+
+# Rollback everything
+hbk migrate downgrade -r base
 ```
 
 ### 6. Seed Data
@@ -204,6 +213,7 @@ my_project/
 | `hbk remove <resource>` | Remove a resource and clean up imports |
 | `hbk migrate create -m "msg"` | Create a new Alembic migration |
 | `hbk migrate apply` | Apply pending migrations |
+| `hbk migrate downgrade` | Rollback last migration (`-r -2` for multiple) |
 | `hbk seed` | Seed database with initial data |
 | `hbk inspect --url <db_url>` | Inspect existing DB and generate models |
 | `hbk upgrade` | Sync latest skills and infra files |
@@ -212,3 +222,15 @@ my_project/
 ---
 
 *Built with 💖 and 🏎️ by Ignacio Bares(nachovoss) and the Hatchback Team.*
+
+
+##  Support
+
+Hatchback is an open-source project. If you'd like to support the development, you can donate via Bitcoin:
+
+**BTC Address:** \c1q9fznxyf0skq8ux5ysrggw3veuqf92xtr25cccq\
+
+![Bitcoin QR Code](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=bc1q9fznxyf0skq8ux5ysrggw3veuqf92xtr25cccq)
+
+Thank you for your support!
+

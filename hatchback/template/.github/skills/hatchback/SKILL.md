@@ -55,6 +55,7 @@ Run these from the **project root** (where `requirements.txt` lives).
 | `hatchback remove <resource>` | Remove a scaffolded resource and clean up all imports |
 | `hatchback migrate create -m "message"` | Create a new Alembic migration |
 | `hatchback migrate apply` | Apply pending migrations |
+| `hatchback migrate downgrade` | Rollback the last migration (use `-r -2` for multiple steps, `-r base` for all) |
 | `hatchback run` | Start Uvicorn dev server with hot-reload |
 | `hatchback seed` | Seed database with default tenant and admin user |
 | `hatchback test` | Run pytest test suite |

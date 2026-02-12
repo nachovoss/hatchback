@@ -44,3 +44,12 @@ def handle_migrate(args):
             subprocess.run([python_cmd, "-m", "alembic", "upgrade", "head"], check=True)
         except Exception as e:
             console.print(f"[bold red]Error applying migrations:[/bold red] {e}")
+
+    elif args.action == "downgrade":
+        revision = getattr(args, "revision", "-1")
+        console.print(f"[bold yellow]Downgrading migration: {revision}[/bold yellow]")
+        try:
+            subprocess.run([python_cmd, "-m", "alembic", "downgrade", revision], check=True)
+            console.print(f"[bold green]✅ Downgrade to '{revision}' complete.[/bold green]")
+        except Exception as e:
+            console.print(f"[bold red]Error downgrading migration:[/bold red] {e}")

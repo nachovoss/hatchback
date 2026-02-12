@@ -30,6 +30,12 @@ Examples (tip: 'hbk' is a shortcut for 'hatchback'):
   # Apply migrations
   hbk migrate apply
 
+  # Rollback the last migration
+  hbk migrate downgrade
+
+  # Rollback multiple steps
+  hbk migrate downgrade -r -2
+
   # Scaffold a new resource (Model, Service, Repository, etc.)
   hbk make product
 
@@ -76,10 +82,11 @@ Examples (tip: 'hbk' is a shortcut for 'hatchback'):
 
     migrate_parser = subparsers.add_parser(
         "migrate", 
-        help="Manage database migrations (create/apply)",
-        description="Wrapper around Alembic to easily create and apply database migrations."
+        help="Manage database migrations (create/apply/downgrade)",
+        description="Wrapper around Alembic to easily create, apply, and rollback database migrations."
     )
-    migrate_parser.add_argument("action", choices=["create", "apply"], help="Action: create or apply")
+    migrate_parser.add_argument("action", choices=["create", "apply", "downgrade"], help="Action: create, apply, or downgrade")
+    migrate_parser.add_argument("-r", "--revision", default="-1", help="Revision target for downgrade (default: -1, i.e. one step back)")
     migrate_parser.add_argument("-m", "--message", help="Migration message (required for create)")
 
     make_parser = subparsers.add_parser(

@@ -12,7 +12,7 @@
   <meta name="author" content="Ignacio Bares">
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏎️</text></svg>">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
 </head>
 
 <body>
@@ -35,6 +35,7 @@
       <li><a href="#cli">CLI</a></li>
       <li><a href="#architecture">Architecture</a></li>
       <li><a href="#links">Docs & Links</a></li>
+      <li><a href="#" id="donate-btn" style="color: var(--neon-cyan);">🧡 Donate</a></li>
       <li><a href="https://github.com/nachovoss/hatchback" target="_blank" rel="noopener" class="nav-cta">⭐ Star on
           GitHub</a></li>
     </ul>
@@ -282,6 +283,10 @@
               <td>Apply pending database migrations</td>
             </tr>
             <tr>
+              <td><code>hbk migrate downgrade</code></td>
+              <td>Rollback the last migration (-r -2 for multiple steps)</td>
+            </tr>
+            <tr>
               <td><code>hbk seed</code></td>
               <td>Seed database with initial data (tenant + admin)</td>
             </tr>
@@ -400,7 +405,7 @@
           <span class="doc-arrow">→</span>
         </a>
 
-        <a href="#donate" class="doc-card reveal">
+        <a href="#" class="doc-card reveal donate-trigger">
           <span class="doc-icon">💜</span>
           <h3>Donate</h3>
           <p>Support the project and fuel development</p>
@@ -457,12 +462,33 @@
       <div class="footer-links">
         <a href="https://github.com/nachovoss/hatchback" target="_blank" rel="noopener">GitHub</a>
         <a href="https://pypi.org/project/hatchback/" target="_blank" rel="noopener">PyPI</a>
-        <a href="#donate">Donate</a>
+        <a href="#" class="donate-trigger">Donate</a>
       </div>
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- ============================================
+       DONATE MODAL
+       ============================================ -->
+  <div class="modal-overlay" id="donate-modal">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <h2>Support the Development</h2>
+      <p>Hatchback is free and open source. If you find it useful, consider donating to keep the engine running!</p>
+      
+      <div class="crypto-box">
+        <h3>Bitcoin (BTC)</h3>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=bc1q9fznxyf0skq8ux5ysrggw3veuqf92xtr25cccq" alt="Bitcoin QR Code" class="qr-code">
+        <div class="address-container">
+          <code id="btc-address">bc1q9fznxyf0skq8ux5ysrggw3veuqf92xtr25cccq</code>
+          <button class="copy-btn" id="copy-btc" title="Copy Address">📋</button>
+        </div>
+        <span class="copied-tooltip" id="btc-tooltip">Copied!</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js?v=2"></script>
 </body>
 
 </html>

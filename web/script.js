@@ -139,4 +139,66 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- Donate Modal ---
+    const donateBtn = document.getElementById('donate-btn');
+    const donateModal = document.getElementById('donate-modal');
+    const modalClose = document.getElementById('modal-close');
+    const copyBtcBtn = document.getElementById('copy-btc');
+
+    if (donateBtn && donateModal && modalClose) {
+        // Open from nav button and any .donate-trigger links
+        const allDonateTriggers = [donateBtn, ...document.querySelectorAll('.donate-trigger')];
+        allDonateTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                donateModal.classList.add('active');
+
+                // Close mobile menu if open
+                const mobileLnk = document.querySelector('.nav-links');
+                const mobileTogg = document.querySelector('.mobile-toggle');
+
+                if (mobileLnk && mobileLnk.classList.contains('open')) {
+                    mobileLnk.classList.remove('open');
+                    if (mobileTogg) {
+                        const sp = mobileTogg.querySelectorAll('span');
+                        if (sp.length === 3) {
+                            sp[0].style.transform = '';
+                            sp[1].style.opacity = '';
+                            sp[2].style.transform = '';
+                        }
+                    }
+                }
+            });
+        });
+
+        // Close functions
+        const closeModal = () => donateModal.classList.remove('active');
+        
+        modalClose.addEventListener('click', closeModal);
+        
+        donateModal.addEventListener('click', (e) => {
+            if (e.target === donateModal) closeModal();
+        });
+
+        // Generic escape key close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && donateModal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    }
+
+    // --- Copy BTC Address ---
+    if (copyBtcBtn) {
+        copyBtcBtn.addEventListener('click', () => {
+            const btcAddr = document.getElementById('btc-address').textContent;
+            navigator.clipboard.writeText(btcAddr).then(() => {
+                const tooltip = document.getElementById('btc-tooltip');
+                tooltip.classList.add('visible');
+                setTimeout(() => tooltip.classList.remove('visible'), 2000);
+            });
+        });
+    }
+
 });
+
