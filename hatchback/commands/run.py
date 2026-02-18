@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 from ..utils import console, get_venv_executable
 
@@ -7,14 +8,8 @@ def handle_run(args):
         console.print("[bold red]Error: 'app' directory not found. Are you in the project root?[/bold red]")
         return
 
-    # Use python -m uvicorn instead of uvicorn executable directly to avoid path issues on Windows
-    if os.name == 'nt':
-        python_exe = os.path.join("venv", "Scripts", "python.exe")
-    else:
-        python_exe = os.path.join("venv", "bin", "python")
-    
-    if not os.path.exists(python_exe):
-        python_exe = "python"
+
+    python_exe = sys.executable
 
     console.print(f"[bold green]Starting server on {args.host}:{args.port}...[/bold green]")
     
