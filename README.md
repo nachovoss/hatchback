@@ -228,7 +228,7 @@ my_project/
 
 Hatchback is an open-source project. If you'd like to support the development, you can donate via Bitcoin:
 
-**BTC Address:** \c1q9fznxyf0skq8ux5ysrggw3veuqf92xtr25cccq\
+**BTC Address:** \bc1q9fznxyf0skq8ux5ysrggw3veuqf92xtr25cccq\
 
 ![Bitcoin QR Code](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=bc1q9fznxyf0skq8ux5ysrggw3veuqf92xtr25cccq)
 
