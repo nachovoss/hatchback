@@ -24,11 +24,45 @@ def handle_migrate(args):
                     newest_file = max(files, key=os.path.getctime)
                     max_num = 0
                     for f in files:
+                        if f == newest_file:
+                            continue
                         match = re.match(r"^(\d+)_", os.path.basename(f))
                         if match:
                             max_num = max(max_num, int(match.group(1)))
                     
                     next_num = max_num + 1
+                    new_revision = str(next_num)
+                    
+                    # Read file and extract old revision
+                    with open(newest_file, "r") as f:
+                        content = f.read()
+
+                    old_revision_match = re.search(r"^revision(?:\s*:\s*str)?\s*=\s*['\"]([^'\"]+)['\"]", content, re.MULTILINE)
+                    if old_revision_match:
+                        old_revision = old_revision_match.group(1)
+                        
+                        # Replace revision ID inside the file
+                        content = content.replace(f"Revision ID: {old_revision}", f"Revision ID: {new_revision}")
+                        content = re.sub(
+                            r"(revision(?:\s*:\s*str)?\s*=\s*)['\"][^'\"]+['\"]",
+                            f"\\1'{new_revision}'",
+                            content,
+                            count=1
+                        )
+                        
+                        # Update down_revision to point to previous sequential number (if exists)
+                        if max_num > 0:
+                            content = re.sub(
+                                r"(down_revision(?:\s*:\s*[^=]+)?\s*=\s*)['\"][^'\"]+['\"]",
+                                f"\\1'{max_num}'",
+                                content,
+                                count=1
+                            )
+                        
+                        with open(newest_file, "w") as f:
+                            f.write(content)
+
+                    # Rename file
                     base_name = os.path.basename(newest_file)
                     parts = base_name.split("_", 1)
                     slug = parts[1] if len(parts) > 1 else base_name
